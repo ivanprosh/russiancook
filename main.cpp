@@ -13,10 +13,9 @@ QStringList listAvailableMetrics,
             listAvailableTypes,
             listAvailableRecepts,
             listAvailTypeRec,
-            listAvailRacions,
-            listAvailSubTypeRec;
+            listAvailRacions;
+            
 
-QVector<QStringList> listforcurProdMetrics;
 
 void SQLinit();
 
