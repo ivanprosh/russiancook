@@ -41,17 +41,13 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
-import com.mymodels.CurNameForQuery 1.0
+//import com.mymodels.CurNameForQuery 1.0
 
 ScrollView {
     width: parent.width
     height: parent.height
 
     flickableItem.interactive: true
-    CurNameForQuery
-    {
-        id:curquery
-    }
 
     ListView {
         id: listReceptTypes
@@ -60,7 +56,8 @@ ScrollView {
         delegate: AndroidDelegate {
             text: Name
             onClicked: {
-              stackView.push(Qt.resolvedUrl("content/ReceptCategoryPage.qml"))
+              MenuRootModel.curNameForQueryChanged(index)
+              //stackView.push(Qt.resolvedUrl("content/ReceptCategoryPage.qml"))
               //curquery.input = listReceptTypes.currentItem
             }
         }

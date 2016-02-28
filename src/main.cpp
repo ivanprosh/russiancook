@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
                                     "FROM Product "
                                     "WHERE Name = '%1';" );
 
-    qmlRegisterType<CurNameForQuery>("com.mymodels.CurNameForQuery",1,0,"CurNameForQuery");
+    //qmlRegisterType<CurNameForQuery>("com.mymodels.CurNameForQuery",1,0,"CurNameForQuery");
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("MenuRootModel", MenuRoot);
     engine.rootContext()->setContextProperty("MenuCategoryModel", MenuCategory);

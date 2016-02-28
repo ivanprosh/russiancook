@@ -14,8 +14,7 @@ QVariant model::data(const QModelIndex &index, int role) const
     if(role < Qt::UserRole) {
               return QSqlQueryModel::data(index, role);
            }
-           QSqlRecord r = record(index.row());
-           return r.value(QString(hash->value(role))).toString();
+    return userdata(index.row(),role);
 }
 
 QHash<int, QByteArray> model::roleNames() const
@@ -24,4 +23,14 @@ QHash<int, QByteArray> model::roleNames() const
     //roles[Name] = "Name";
     //return roles;
     return *hash;
+}
+QString model::userdata(int row,int role) const
+{
+    QSqlRecord r = record(row);
+    return r.value(QString(hash->value(role))).toString();
+}
+
+void model::curNameForQueryChanged(int index) //clicked item in menu
+{
+    qDebug() <<"point1" << Myquery.arg(userdata(index,Qt::UserRole));
 }
