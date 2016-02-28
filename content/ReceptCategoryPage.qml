@@ -50,10 +50,13 @@ ScrollView {
 
     ListView {
         anchors.fill: parent
-        model: MenuRootModel
+        model: MenuRec
         delegate: AndroidDelegate {
-            text: Name
-            onClicked: stackView.push(Qt.resolvedUrl("content/ButtonPage.qml"))
+            text: SubType
+            onClicked:
+            {
+              stackView.push(Qt.resolvedUrl("content/ReceptList.qml"))
+            }
         }
     }
 

@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
         <file>images/button_default.png</file>
         <file>images/button_pressed.png</file>
         <file>images/navigation_next_item.png</file>
@@ -12,5 +11,6 @@
         <file>content/AndroidDelegate.qml</file>
         <file>content/ReceptCategoryPage.qml</file>
         <file>content/ReceptsTypePage.qml</file>
+        <file>content/Main.qml</file>
     </qresource>
 </RCC>

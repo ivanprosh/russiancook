@@ -41,6 +41,7 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
+//import "Main.qml"
 //import com.mymodels.CurNameForQuery 1.0
 
 ScrollView {
@@ -52,13 +53,12 @@ ScrollView {
     ListView {
         id: listReceptTypes
         anchors.fill: parent
-        model: MenuRootModel
+        model: MenuRec
         delegate: AndroidDelegate {
-            text: Name
+            text: Type
             onClicked: {
-              MenuRootModel.curNameForQueryChanged(index)
-              //stackView.push(Qt.resolvedUrl("content/ReceptCategoryPage.qml"))
-              //curquery.input = listReceptTypes.currentItem
+              MenuRec.CatForCurTypeQuery(index,"SubType")
+              stackView.push(Qt.resolvedUrl("content/ReceptCategoryPage.qml"))
             }
         }
     }

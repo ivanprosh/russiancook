@@ -9,7 +9,7 @@ CONFIG += c++11
 include(src/src.pri)
 
 OTHER_FILES += \
-    main.qml \
+    content/Main.qml \
     content/AndroidDelegate.qml \
     content/ReceptsTypePage.qml \
     content/ReceptCategoryPage.qml

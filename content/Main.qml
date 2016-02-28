@@ -40,12 +40,16 @@
 
 import QtQuick 2.2
 import QtQuick.Controls 1.4
-import "content"
+//import "content"
 
 ApplicationWindow {
+    id: mainwindow
     visible: true
     width: 800
     height: 1280
+
+    //signal stackPush(int page)
+    //OnStackPush: stackView.push(Qt.resolvedUrl(page))
 
     Rectangle {
         color: "#212126"
@@ -54,7 +58,7 @@ ApplicationWindow {
 
     toolBar: BorderImage {
         border.bottom: 8
-        source: "images/toolbar.png"
+        source: "../images/toolbar.png"
         width: parent.width
         height: 100
 
@@ -97,11 +101,11 @@ ApplicationWindow {
         //model: MenuRootModel
         ListElement {
             title: "Рецепты"
-            page: "content/ReceptsTypePage.qml"
+            page: "ReceptsTypePage.qml"
         }
         ListElement {
             title: "Календарь"
-            page: "content/CalendarPage.qml"
+            page: "CalendarPage.qml"
         }
 //        ListElement {
 //            title: "ProgressBar"

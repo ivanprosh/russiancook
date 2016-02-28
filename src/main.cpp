@@ -14,22 +14,21 @@ int main(int argc, char *argv[])
             return -1;
         }
     //Ok, then create example of SQLmodel
-    model* MenuRoot = new model("SELECT Name "
-                                "FROM Product "
-                                "WHERE Name = '%1';" );
-
-    MenuRoot->setQuery("SELECT Name "
-                       "FROM Product ");
-
-    model* MenuCategory = new model("SELECT Name "
-                                    "FROM Product "
-                                    "WHERE Name = '%1';" );
+    QStringList RecTypeheaders;
+    RecTypeheaders << "Type" << "SubType" << "Description";
+//    QString initQuery = "SELECT '%1' "
+//                        "FROM '%2' "
+//                        "WHERE '%3' = '%4';";
+    MenuRecModel* MenuRec = new MenuRecModel(RecTypeheaders);
+    //инициализационный запрос
+    MenuRec->setQuery("SELECT Distinct Type "
+                        "FROM ReceptType ");
 
     //qmlRegisterType<CurNameForQuery>("com.mymodels.CurNameForQuery",1,0,"CurNameForQuery");
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("MenuRootModel", MenuRoot);
-    engine.rootContext()->setContextProperty("MenuCategoryModel", MenuCategory);
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    engine.rootContext()->setContextProperty("MenuRec", MenuRec);
+    //engine.rootContext()->setContextProperty("MenuCategoryModel", MenuCategory);
+    engine.load(QUrl(QStringLiteral("qrc:/content/Main.qml")));
 
     return app.exec();
 }
