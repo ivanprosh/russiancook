@@ -76,13 +76,16 @@ ApplicationWindow {
             Behavior on opacity { NumberAnimation{} }
             Image {
                 anchors.verticalCenter: parent.verticalCenter
-                source: "images/navigation_previous_item.png"
+                source: "../images/navigation_previous_item.png"
             }
             MouseArea {
                 id: backmouse
                 anchors.fill: parent
                 anchors.margins: -10
-                onClicked: stackView.pop()
+                onClicked: {
+                 stackView.pop()
+                 MenuRec.LevelUp();
+                }
             }
         }
 
@@ -132,6 +135,7 @@ ApplicationWindow {
         focus: true
         Keys.onReleased: if (event.key === Qt.Key_Back && stackView.depth > 1) {
                              stackView.pop();
+                             //MenuRec.LevelUp();
                              event.accepted = true;
                          }
 
@@ -143,7 +147,10 @@ ApplicationWindow {
                 anchors.fill: parent
                 delegate: AndroidDelegate {
                     text: title
-                    onClicked: stackView.push(Qt.resolvedUrl(page))
+                    onClicked:{
+                        stackView.push(Qt.resolvedUrl(page));
+                        MenuRec.LevelDown();
+                    }
                 }
             }
         }

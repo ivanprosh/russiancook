@@ -16,13 +16,11 @@ int main(int argc, char *argv[])
     //Ok, then create example of SQLmodel
     QStringList RecTypeheaders;
     RecTypeheaders << "Type" << "SubType" << "Description";
-//    QString initQuery = "SELECT '%1' "
-//                        "FROM '%2' "
-//                        "WHERE '%3' = '%4';";
-    MenuRecModel* MenuRec = new MenuRecModel(RecTypeheaders);
+    QString initQuery = "SELECT Distinct Type "
+                        "FROM ReceptType ";
+    MenuRecModel* MenuRec = new MenuRecModel(RecTypeheaders,initQuery);
     //инициализационный запрос
-    MenuRec->setQuery("SELECT Distinct Type "
-                        "FROM ReceptType ");
+    //MenuRec->setQuery();
 
     //qmlRegisterType<CurNameForQuery>("com.mymodels.CurNameForQuery",1,0,"CurNameForQuery");
     QQmlApplicationEngine engine;

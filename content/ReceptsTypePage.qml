@@ -41,7 +41,6 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
-//import "Main.qml"
 //import com.mymodels.CurNameForQuery 1.0
 
 ScrollView {
@@ -57,9 +56,10 @@ ScrollView {
         delegate: AndroidDelegate {
             text: Type
             onClicked: {
-              MenuRec.CatForCurTypeQuery(index,"SubType")
-              stackView.push(Qt.resolvedUrl("content/ReceptCategoryPage.qml"))
-            }
+              stackView.push(Qt.resolvedUrl("ReceptCategoryPage.qml"));
+              MenuRec.LevelDown();
+              MenuRec.CatForCurTypeQuery(index,"SubType");
+              }
         }
     }
 
