@@ -55,7 +55,9 @@ ScrollView {
             text: SubType
             onClicked:
             {
-              stackView.push(Qt.resolvedUrl("content/ReceptList.qml"))
+              stackView.push(Qt.resolvedUrl("ReceptsListPage.qml"))
+              MenuRec.LevelDown();
+              MenuRec.RecForCurCatQuery(index);
             }
         }
     }

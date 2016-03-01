@@ -10,7 +10,7 @@ private:
 public:
     explicit Database(QString Name, QObject *parent = 0):QObject(parent)
                                                         ,name(Name){}
-    bool createСonnection();
+    bool createConnection();
 };
 
 #endif // DATABASE_H

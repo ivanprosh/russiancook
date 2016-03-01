@@ -11,8 +11,10 @@ include(src/src.pri)
 OTHER_FILES += \
     content/Main.qml \
     content/AndroidDelegate.qml \
+    content/ReceptDelegate.qml \
     content/ReceptsTypePage.qml \
-    content/ReceptCategoryPage.qml
+    content/ReceptCategoryPage.qml \
+    content/ReceptListPage.qml
 
 RESOURCES += qml.qrc
 

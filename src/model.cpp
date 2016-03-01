@@ -31,13 +31,30 @@ QString MenuRecModel::userdata(int row,int role) const
     return r.value(QString(hash->value(role))).toString();
 }
 
-void MenuRecModel::CatForCurTypeQuery(int index,QString Nameheader) //clicked item in menu list types
+void MenuRecModel::CatForCurTypeQuery(int index) //clicked item in menu list types
 {
-    QString MycurQuery = "SELECT Distinct %1 "
+    QSqlRecord rec;
+    QSqlQuery query;
+    QString MycurQuery = "SELECT Distinct ID_Type,%1 "
                                   "FROM ReceptType "
                                   "WHERE %2 = '%3' ";
-    MycurQuery = MycurQuery.arg(Nameheader)
-                                       .arg(QString(hash->value(MenuRecModel::Type)))
-                                       .arg(userdata(index,MenuRecModel::Type));
+    MycurQuery = MycurQuery.arg("SubType")
+                           .arg(QString(hash->value(MenuRecModel::Type)))
+                           .arg(userdata(index,MenuRecModel::Type));
+    //запоминаем id текущей пары из словаря Тип-Категория
+    query.exec(MycurQuery);
+    rec = query.record();
+    query.next();
+    curTypeid = query.value(rec.indexOf("ID_Type")).toInt();
+
+    this->setQuery(MycurQuery);
+}
+void MenuRecModel::RecForCurCatQuery(int index) //clicked item in menu list types
+{
+    QString MycurQuery = "SELECT * "
+                         "FROM Recept "
+                         "WHERE Type = '%1' ";
+    MycurQuery = MycurQuery.arg(curTypeid);
+
     this->setQuery(MycurQuery);
 }

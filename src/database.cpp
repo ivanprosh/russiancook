@@ -3,7 +3,7 @@
 #include <QDebug>
 #include "database.h"
 
-bool Database::createСonnection()
+bool Database::createConnection()
 {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     //QString path ="RussianCook.sqlite";

@@ -10,15 +10,18 @@ int main(int argc, char *argv[])
     //Create connect to db
     Database cook("RussianCook.sqlite");
 
-    if (!cook.createСonnection()) {
+    if (!cook.createConnection()) {
             return -1;
         }
     //Ok, then create example of SQLmodel
-    QStringList RecTypeheaders;
-    RecTypeheaders << "Type" << "SubType" << "Description";
+    QStringList ModelHeaders;
+
+    ModelHeaders << "Type" << "SubType" << "Description";
+    ModelHeaders << "Name" << "Description" << "Comment" << "Racion"; //Таблица Рецептов
+
     QString initQuery = "SELECT Distinct Type "
                         "FROM ReceptType ";
-    MenuRecModel* MenuRec = new MenuRecModel(RecTypeheaders,initQuery);
+    MenuRecModel* MenuRec = new MenuRecModel(ModelHeaders,initQuery);
     //инициализационный запрос
     //MenuRec->setQuery();
 
