@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     QStringList ModelHeaders;
 
     ModelHeaders << "Type" << "SubType" << "Description";
-    ModelHeaders << "Name" << "Description" << "Comment" << "Racion"; //Таблица Рецептов
+    ModelHeaders << "Name" << "MainProd" << "Racion" << "Description" << "Comment" ; //Таблица Рецептов
 
     QString initQuery = "SELECT Distinct Type "
                         "FROM ReceptType ";

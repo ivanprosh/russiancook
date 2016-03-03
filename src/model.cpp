@@ -51,9 +51,11 @@ void MenuRecModel::CatForCurTypeQuery(int index) //clicked item in menu list typ
 }
 void MenuRecModel::RecForCurCatQuery(int index) //clicked item in menu list types
 {
-    QString MycurQuery = "SELECT * "
-                         "FROM Recept "
-                         "WHERE Type = '%1' ";
+    QString MycurQuery = "SELECT Recept.Name, "
+                         "Product.Name as MainProd,"
+                         "Recept.Racion "
+                         "FROM Recept LEFT JOIN Product ON Product.ID_PR = Recept.ID_MainPr "
+                         "WHERE Recept.Type = '%1';";
     MycurQuery = MycurQuery.arg(curTypeid);
 
     this->setQuery(MycurQuery);
