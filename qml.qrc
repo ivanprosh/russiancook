@@ -14,5 +14,6 @@
         <file>content/Main.qml</file>
         <file>content/ReceptDelegate.qml</file>
         <file>content/ReceptsListPage.qml</file>
+        <file>images/mushrooms.png</file>
     </qresource>
 </RCC>

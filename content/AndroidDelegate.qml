@@ -56,7 +56,7 @@ Item {
 
     Text {
         id: textitem
-        color: "white"
+        color: "black"
         font.pixelSize: 32
         text: modelData
         anchors.verticalCenter: parent.verticalCenter
@@ -69,7 +69,7 @@ Item {
         anchors.right: parent.right
         anchors.margins: 15
         height: 1
-        color: "#424246"
+        color: "#eff9be"
     }
 
     Image {

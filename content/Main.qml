@@ -51,24 +51,34 @@ ApplicationWindow {
     //signal stackPush(int page)
     //OnStackPush: stackView.push(Qt.resolvedUrl(page))
 
-    Rectangle {
-        color: "#212126"
-        anchors.fill: parent
-    }
 
+    BorderImage {
+        id: mainborder
+        verticalTileMode: BorderImage.Round
+        horizontalTileMode : BorderImage.Round
+        border.left: 67; border.top: 1; border.right: 69; border.bottom: 190
+        anchors { top: parent.top; bottom: parent.bottom; left:parent.left; right:parent.right  }
+        source: "../images/mushrooms.png"
+    }
     toolBar: BorderImage {
-        border.bottom: 8
+        id: maintoolbar
+        verticalTileMode: BorderImage.Round
+        horizontalTileMode : BorderImage.Round
+        border.left: 67; border.top: 100; border.right: 69; border.bottom: 10
         source: "../images/toolbar.png"
         width: parent.width
-        height: 100
+        //anchors.top: parent
+        height: 150
 
         Rectangle {
             id: backButton
             width: opacity ? 60 : 0
+            anchors.top:parent.top
+            anchors.topMargin: parent.border.top*0.66
             anchors.left: parent.left
-            anchors.leftMargin: 20
+            anchors.leftMargin: 20+parent.border.left
             opacity: stackView.depth > 1 ? 1 : 0
-            anchors.verticalCenter: parent.verticalCenter
+
             antialiasing: true
             height: 60
             radius: 4
@@ -83,19 +93,19 @@ ApplicationWindow {
                 anchors.fill: parent
                 anchors.margins: -10
                 onClicked: {
-                 stackView.pop()
-                 MenuRec.LevelUp();
+                    stackView.pop()
+                    MenuRec.LevelUp();
                 }
             }
         }
 
         Text {
-            font.pixelSize: 42
+            anchors.verticalCenter: backButton.verticalCenter
+            font.pixelSize: 38
             Behavior on x { NumberAnimation{ easing.type: Easing.OutCubic} }
             x: backButton.x + backButton.width + 20
-            anchors.verticalCenter: parent.verticalCenter
-            color: "white"
-            text: "Widget Gallery"
+            color: "black"
+            text: "Русская кухня"
         }
     }
 
@@ -110,27 +120,30 @@ ApplicationWindow {
             title: "Календарь"
             page: "CalendarPage.qml"
         }
-//        ListElement {
-//            title: "ProgressBar"
-//            page: "content/ProgressBarPage.qml"
-//        }
-//        ListElement {
-//            title: "Tabs"
-//            page: "content/TabBarPage.qml"
-//        }
-//        ListElement {
-//            title: "TextInput"
-//            page: "content/TextInputPage.qml"
-//        }
-//        ListElement {
-//            title: "List"
-//            page: "content/ListPage.qml"
-//        }
+        //        ListElement {
+        //            title: "ProgressBar"
+        //            page: "content/ProgressBarPage.qml"
+        //        }
+        //        ListElement {
+        //            title: "Tabs"
+        //            page: "content/TabBarPage.qml"
+        //        }
+        //        ListElement {
+        //            title: "TextInput"
+        //            page: "content/TextInputPage.qml"
+        //        }
+        //        ListElement {
+        //            title: "List"
+        //            page: "content/ListPage.qml"
+        //        }
     }
 
     StackView {
         id: stackView
         anchors.fill: parent
+        anchors.leftMargin: mainborder.border.left
+        anchors.rightMargin: mainborder.border.right
+        anchors.bottomMargin: mainborder.border.bottom
         // Implements back key navigation
         focus: true
         Keys.onReleased: if (event.key === Qt.Key_Back && stackView.depth > 1) {
