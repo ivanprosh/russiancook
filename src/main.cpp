@@ -2,7 +2,7 @@
 #include <QtQml>
 #include "database.h"
 #include "model.h"
-#include "curnameforquery.h"
+#include "recept.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,16 +19,19 @@ int main(int argc, char *argv[])
     ModelHeaders << "Type" << "SubType" << "Description";
     ModelHeaders << "Name" << "MainProd" << "Racion" << "Description" << "Comment" ; //Таблица Рецептов
 
+
     QString initQuery = "SELECT Distinct Type "
                         "FROM ReceptType ";
     MenuRecModel* MenuRec = new MenuRecModel(ModelHeaders,initQuery);
-    //инициализационный запрос
-    //MenuRec->setQuery();
+    Recept curRecept;
+
+    //Подключаем сигналы между моделью и экземпляром рецепта
+    QObject::connect(MenuRec,SIGNAL(curRecNameChanged(QString)),&curRecept,SLOT(curRecNameChanged(QString)));
 
     //qmlRegisterType<CurNameForQuery>("com.mymodels.CurNameForQuery",1,0,"CurNameForQuery");
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("MenuRec", MenuRec);
-    //engine.rootContext()->setContextProperty("MenuCategoryModel", MenuCategory);
+    engine.rootContext()->setContextProperty("curRecept", &curRecept);
     engine.load(QUrl(QStringLiteral("qrc:/content/Main.qml")));
 
     return app.exec();

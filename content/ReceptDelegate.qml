@@ -72,7 +72,7 @@ Item {
     Rectangle{
         anchors.fill: parent
         z:1
-        color: "#212126"
+        color: "transparent"
 
         id: recdata
         RowLayout {
@@ -87,13 +87,12 @@ Item {
             }
             Column {
                 Layout.fillWidth: true
-                Text {id: elname; color: "white"; text: modelData; font.pointSize: 12}
-                Text {id: elprod; color: "lightblue"; text: modelData; font.pointSize: 10}
-                Text {id: elrac; color: "yellow"; text: modelData; font.pointSize: 8}
+                Text {id: elname; color: Qt.darker("#706343"); text: modelData; font.pointSize: 12}
+                Text {id: elprod; color: "#706343"; text: modelData; font.pointSize: 10}
+                Text {id: elrac; color: Qt.tint(elname.color,elprod.color); text: modelData; font.pointSize: 8}
             }
             Image {
                 anchors.right: parent.right
-                //anchors.verticalCenter: parent.verticalCenter
                 source: "../images/navigation_next_item.png"
             }
         }

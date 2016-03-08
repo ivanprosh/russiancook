@@ -55,8 +55,17 @@ void MenuRecModel::RecForCurCatQuery(int index) //clicked item in menu list type
                          "Product.Name as MainProd,"
                          "Recept.Racion "
                          "FROM Recept LEFT JOIN Product ON Product.ID_PR = Recept.ID_MainPr "
-                         "WHERE Recept.Type = '%1';";
-    MycurQuery = MycurQuery.arg(curTypeid);
-
+                         "WHERE Recept.Type = (SELECT ID_Type FROM ReceptType WHERE SubType='%1');";
+    MycurQuery = MycurQuery.arg(userdata(index,MenuRecModel::SubType));
+    qDebug() << MycurQuery;
     this->setQuery(MycurQuery);
 }
+void MenuRecModel::SingleRecQuery(int index)
+{
+    QString Racion = userdata(index,MenuRecModel::RecRacion);
+    QString MainProd = userdata(index,MenuRecModel::RecMainProd);
+    curRecName = userdata(index,MenuRecModel::RecName);
+    qDebug() << "Имя: " << curRecName << "Racion: " << Racion << "MainProd: " << MainProd;
+    emit curRecNameChanged(curRecName);
+}
+

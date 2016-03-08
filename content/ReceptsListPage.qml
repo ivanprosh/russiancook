@@ -58,9 +58,9 @@ ScrollView {
             receptMainProd: MainProd
             receptRacion: Racion
             onClicked: {
-              //stackView.push(Qt.resolvedUrl("ReceptCategoryPage.qml"));
+              stackView.push(Qt.resolvedUrl("SingleReceptPage.qml"));
               MenuRec.LevelDown();
-              MenuRec.RecForCurCatQuery(index,"SubType");
+              MenuRec.SingleRecQuery(index);
               }
         }
     }
@@ -71,7 +71,7 @@ ScrollView {
             implicitWidth: 14
             implicitHeight: 26
             Rectangle {
-                color: "#424246"
+                color: "#d3c59c"
                 anchors.fill: parent
                 anchors.topMargin: 6
                 anchors.leftMargin: 4

@@ -67,7 +67,6 @@ ApplicationWindow {
         border.left: 67; border.top: 100; border.right: 69; border.bottom: 10
         source: "../images/toolbar.png"
         width: parent.width
-        //anchors.top: parent
         height: 150
 
         Rectangle {
@@ -82,7 +81,7 @@ ApplicationWindow {
             antialiasing: true
             height: 60
             radius: 4
-            color: backmouse.pressed ? "#222" : "transparent"
+            color: backmouse.pressed ? "#55BDB76B" : "transparent"
             Behavior on opacity { NumberAnimation{} }
             Image {
                 anchors.verticalCenter: parent.verticalCenter
@@ -104,14 +103,14 @@ ApplicationWindow {
             font.pixelSize: 38
             Behavior on x { NumberAnimation{ easing.type: Easing.OutCubic} }
             x: backButton.x + backButton.width + 20
-            color: "black"
+            color: Qt.darker("#706343")
             text: "Русская кухня"
         }
     }
 
     ListModel {
         id: pageModel
-        //model: MenuRootModel
+
         ListElement {
             title: "Рецепты"
             page: "ReceptsTypePage.qml"
@@ -164,9 +163,38 @@ ApplicationWindow {
                         stackView.push(Qt.resolvedUrl(page));
                         MenuRec.LevelDown();
                     }
+
                 }
+            }
+        }
+        delegate: StackViewDelegate
+        {
+        pushTransition:StackViewTransition {
+            PropertyAnimation {
+                target: enterItem
+                property: "opacity"
+                from: 0
+                to: 1
+            }
+
+            NumberAnimation {
+                target: enterItem
+                property: "x"
+                from: 500
+                duration: 500
+                to: 0
+                easing.type: Easing.InOutCubic
+            }
+            PropertyAnimation {
+                target: exitItem
+                property: "opacity"
+                from: 1
+                to: 0
             }
         }
     }
 
 }
+
+}
+

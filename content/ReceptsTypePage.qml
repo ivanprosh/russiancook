@@ -69,7 +69,7 @@ ScrollView {
             implicitWidth: 14
             implicitHeight: 26
             Rectangle {
-                color: "#424246"
+                color: Qt.darker("#d3c59c")
                 anchors.fill: parent
                 anchors.topMargin: 6
                 anchors.leftMargin: 4
