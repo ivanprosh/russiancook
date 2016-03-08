@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     //qmlRegisterType<CurNameForQuery>("com.mymodels.CurNameForQuery",1,0,"CurNameForQuery");
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("MenuRec", MenuRec);
-    engine.rootContext()->setContextProperty("curRecept", &curRecept);
+    engine.rootContext()->setContextProperty("curReceptComposition", &(curRecept.composition));
     engine.load(QUrl(QStringLiteral("qrc:/content/Main.qml")));
 
     return app.exec();
