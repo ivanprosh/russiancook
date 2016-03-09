@@ -16,5 +16,6 @@
         <file>content/ReceptsListPage.qml</file>
         <file>images/mushrooms.png</file>
         <file>content/SingleReceptPage.qml</file>
+        <file>content/Scalar.qml</file>
     </qresource>
 </RCC>

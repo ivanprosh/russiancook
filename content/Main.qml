@@ -40,12 +40,11 @@
 
 import QtQuick 2.2
 import QtQuick.Controls 1.4
-//import "content"
 
 ApplicationWindow {
     id: mainwindow
     visible: true
-    width: 800
+    width:  Scalar.dpi
     height: 1280
 
     //signal stackPush(int page)

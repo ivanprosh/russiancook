@@ -50,6 +50,12 @@ ScrollView {
     flickableItem.interactive: true
 
     TableView {
+
+        frameVisible: false
+        sortIndicatorVisible: true
+        //anchors.fill: parent
+
+
         TableViewColumn {
             role: "ProductName"
             title: "Продукт"
@@ -66,6 +72,7 @@ ScrollView {
             width: 200
         }
         model: curReceptComposition
+
     }
 
 
