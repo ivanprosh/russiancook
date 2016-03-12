@@ -40,12 +40,14 @@
 
 import QtQuick 2.2
 import QtQuick.Controls 1.4
+import QtQuick.Window 2.0
+import "scale.js" as MyScale
 
 ApplicationWindow {
     id: mainwindow
     visible: true
-    width:  Scalar.dpi
-    height: 1280
+    width: MyScale.dp(720)
+    height: MyScale.dp(1280)
 
     //signal stackPush(int page)
     //OnStackPush: stackView.push(Qt.resolvedUrl(page))
@@ -55,7 +57,7 @@ ApplicationWindow {
         id: mainborder
         verticalTileMode: BorderImage.Round
         horizontalTileMode : BorderImage.Round
-        border.left: 67; border.top: 1; border.right: 69; border.bottom: 190
+        border.left: MyScale.dp(67); border.top: MyScale.dp(1); border.right: MyScale.dp(69); border.bottom: MyScale.dp(190)
         anchors { top: parent.top; bottom: parent.bottom; left:parent.left; right:parent.right  }
         source: "../images/mushrooms.png"
     }
@@ -63,7 +65,7 @@ ApplicationWindow {
         id: maintoolbar
         verticalTileMode: BorderImage.Round
         horizontalTileMode : BorderImage.Round
-        border.left: 67; border.top: 100; border.right: 69; border.bottom: 10
+        border {left: MyScale.dp(67); top: MyScale.dp(100); right: MyScale.dp(69); bottom: MyScale.dp(10)}
         source: "../images/toolbar.png"
         width: parent.width
         height: 150
@@ -91,6 +93,7 @@ ApplicationWindow {
                 anchors.fill: parent
                 anchors.margins: -10
                 onClicked: {
+                    console.log("dpi is:", Screen.pixelDensity.toString())
                     stackView.pop()
                     MenuRec.LevelUp();
                 }
@@ -118,22 +121,7 @@ ApplicationWindow {
             title: "Календарь"
             page: "CalendarPage.qml"
         }
-        //        ListElement {
-        //            title: "ProgressBar"
-        //            page: "content/ProgressBarPage.qml"
-        //        }
-        //        ListElement {
-        //            title: "Tabs"
-        //            page: "content/TabBarPage.qml"
-        //        }
-        //        ListElement {
-        //            title: "TextInput"
-        //            page: "content/TextInputPage.qml"
-        //        }
-        //        ListElement {
-        //            title: "List"
-        //            page: "content/ListPage.qml"
-        //        }
+
     }
 
     StackView {
@@ -148,7 +136,7 @@ ApplicationWindow {
                              stackView.pop();
                              //MenuRec.LevelUp();
                              event.accepted = true;
-                         }
+                            }
 
         initialItem: Item {
             width: parent.width

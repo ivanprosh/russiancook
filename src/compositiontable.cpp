@@ -36,7 +36,7 @@ void CompositionTable::setCurQuery(int RecID)
                               "LEFT JOIN Recept ON Recept.ID_REC = Composition.ID_REC "
                               "WHERE Composition.ID_REC='%1';";
     this->setQuery(CurComposTableQ.arg(RecID));
-    qDebug()<<"In composition setCurQuery";
+    //qDebug()<<"In composition setCurQuery";
 }
 
 
