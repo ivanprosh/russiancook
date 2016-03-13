@@ -2,8 +2,8 @@ import QtQuick 2.2
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.2
+//import com.cook.Recept 1.0
 import "scale.js" as MyScale
-//import com.mymodels.CurNameForQuery 1.0
 
 ScrollView {
     id: receptview
@@ -11,15 +11,38 @@ ScrollView {
     height: parent.height
     horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
 
+    property string fontDescrsize: MyScale.dp(17)
+    property string fontItemsize: MyScale.dp(17)
+    property string fontHeadersize: MyScale.dp(14)
+    property color mainTextColor: Qt.darker("#706343")
+
     ColumnLayout {
         width: stackView.width
         height: children.height
+
+        Component.onCompleted: {
+            initTimer.running = true
+        }
+        Timer{
+            id: initTimer
+            interval: 0
+            repeat: false
+            onTriggered:
+            {
+                if(SingleRecModel.comValue()!== '')
+                    textdescription.text = SingleRecModel.descValue() + "\n" +
+                                       SingleRecModel.comValue()
+                else
+                    textdescription.text = SingleRecModel.descValue()
+
+            }
+        }
         //состав
         TableView {
             id: composTable
             Layout.alignment: Qt.AlignHCenter
             Layout.preferredWidth: parent.width*0.8
-            Layout.minimumHeight: rowCount*MyScale.dp(80)
+            Layout.minimumHeight: rowCount*MyScale.dp(40)
 
             TableViewColumn {
                 role: "ProductName"
@@ -44,34 +67,26 @@ ScrollView {
             //делегаты
             style: TableViewStyle {
 
-                backgroundColor: "#33dfd097"
+                backgroundColor: "transparent"
                 headerDelegate: Rectangle {
+
                     height: textItem.implicitHeight * 1.3
                     width: textItem.implicitWidth
-                    color: "#66796c49"
-
+                    //color: "#33796c49"
+                    color: "transparent"
                     Text {
                         id: textItem
                         anchors.fill: parent
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: styleData.textAlignment
-                        anchors.leftMargin: 12
+                        //anchors.leftMargin: 12
                         text: styleData.value
                         elide: Text.ElideRight
-                        color: "#706343"
+                        color: mainTextColor
                         renderType: Text.NativeRendering
-                        //font.family: "Helvetica"
-                        font.pixelSize: MyScale.dp(22)
+                        font.pixelSize: fontHeadersize
                     }
-                    Rectangle {
-                        anchors.right: parent.right
-                        anchors.top: parent.top
-                        anchors.bottom: parent.bottom
-                        anchors.bottomMargin: 1
-                        anchors.topMargin: 1
-                        width: 1
-                        color: "#ccc"
-                    }
+
                 }
                 itemDelegate:  Item {
                     Text {
@@ -79,26 +94,54 @@ ScrollView {
                         width: parent.width
                         anchors.margins: 4
                         anchors.horizontalCenter: parent.horizontalCenter
-                        //anchors.verticalCenter: parent.verticalCenter
+                        horizontalAlignment: styleData.textAlignment
+                        verticalAlignment: Text.AlignVCenter
+                        anchors.leftMargin: 12
+                        anchors.topMargin: 5
                         elide: Text.ElideMiddle
                         text: styleData.value
                         color: styleData.textColor
-                        font.pixelSize: MyScale.dp(20)
+                        font.pixelSize: fontItemsize
+
+                        Behavior on font.pixelSize { NumberAnimation{} }
                     }
                 }
 
                 rowDelegate: Rectangle {
-                    height: styleData.selected ? composTable.textrow.implicitHeight * 3.0 : 40
-                    width: textrow.implicitWidth
-                    color: "#05796c49"
-
+                    height: fontItemsize * 2.0
+                    //width: textrow.implicitWidth
+                    color: styleData.selected ? "#11ffffff":"transparent"
                     Behavior on height { NumberAnimation{} }
 
                 }
             }
         }
         //описание
-        // Rectangle { color: "red"; width: 50; height: 50 }
+        TextArea {
+                id: textdescription
+                backgroundVisible: false
+                frameVisible: false
+                //ScrollView:
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                Layout.preferredWidth: parent.width-Layout.leftMargin-Layout.rightMargin
+                Layout.leftMargin: MyScale.dp(10)
+                Layout.rightMargin: MyScale.dp(10)
+                font.pixelSize: fontDescrsize;
+                horizontalAlignment : Text.AlignJustify
+
+                style: TextAreaStyle {
+                          textColor: mainTextColor
+                          selectionColor: Qt.lighter("#91884d")
+                          selectedTextColor: "#6f6242"
+                          backgroundColor: "transparent"
+                          renderType: Text.NativeRendering
+                }
+
+                onTextChanged:
+                {Layout.preferredHeight = contentHeight
+                 console.log("Text changed! height:",contentHeight)}
+            }
+
     }
 
     style: ScrollViewStyle {

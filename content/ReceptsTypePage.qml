@@ -56,9 +56,12 @@ ScrollView {
         delegate: AndroidDelegate {
             text: Type
             onClicked: {
+              listReceptTypes.currentIndex = index;
+              MenuRec.LevelDown(maintoolbar.text);
+              maintoolbar.text = listReceptTypes.currentItem.text;
               stackView.push(Qt.resolvedUrl("ReceptCategoryPage.qml"));
-              MenuRec.LevelDown();
               MenuRec.CatForCurTypeQuery(index,"SubType");
+
               }
         }
     }

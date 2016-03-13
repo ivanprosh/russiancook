@@ -58,9 +58,11 @@ ScrollView {
             receptMainProd: MainProd
             receptRacion: Racion
             onClicked: {
-              stackView.push(Qt.resolvedUrl("SingleReceptPage.qml"));
-              MenuRec.LevelDown();
+              listRecepts.currentIndex = index;
+              MenuRec.LevelDown(maintoolbar.text);
+              maintoolbar.text = listRecepts.currentItem.receptName;
               MenuRec.SingleRecQuery(index);
+              stackView.push(Qt.resolvedUrl("SingleReceptPage.qml"));
               }
         }
     }

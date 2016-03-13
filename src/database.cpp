@@ -15,7 +15,7 @@ bool Database::createConnection()
     }
     QStringList tables = db.tables();
     foreach (QString str, tables) {
-        qDebug() << "Table is: " << str;
+        //qDebug() << "Table is: " << str;
     }
     return true;
 }

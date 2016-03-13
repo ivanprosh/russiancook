@@ -49,14 +49,17 @@ ScrollView {
     flickableItem.interactive: true
 
     ListView {
+        id: listReceptCat
         anchors.fill: parent
         model: MenuRec
         delegate: AndroidDelegate {
             text: SubType
             onClicked:
             {
-              stackView.push(Qt.resolvedUrl("ReceptsListPage.qml"))
-              MenuRec.LevelDown();
+              listReceptCat.currentIndex = index;
+              MenuRec.LevelDown(maintoolbar.text);
+              maintoolbar.text = listReceptCat.currentItem.text
+              stackView.push(Qt.resolvedUrl("ReceptsListPage.qml"));
               MenuRec.RecForCurCatQuery(index);
             }
         }

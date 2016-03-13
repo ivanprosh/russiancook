@@ -11,6 +11,8 @@ MenuRecModel::MenuRecModel(QStringList headers,QString initquery, QObject *paren
 
     this->setQuery(initquery);
     MyqueryStack.push(QSqlQuery("NULL"));
+    //HandleName = "Русская кухня";
+    //HandleNameStack.push(HandleName);
 }
 
 QVariant MenuRecModel::data(const QModelIndex &index, int role) const
@@ -57,7 +59,6 @@ void MenuRecModel::RecForCurCatQuery(int index) //clicked item in menu list type
                          "FROM Recept LEFT JOIN Product ON Product.ID_PR = Recept.ID_MainPr "
                          "WHERE Recept.Type = (SELECT ID_Type FROM ReceptType WHERE SubType='%1');";
     MycurQuery = MycurQuery.arg(userdata(index,MenuRecModel::SubType));
-    qDebug() << MycurQuery;
     this->setQuery(MycurQuery);
 }
 void MenuRecModel::SingleRecQuery(int index)
@@ -66,6 +67,6 @@ void MenuRecModel::SingleRecQuery(int index)
     QString MainProd = userdata(index,MenuRecModel::RecMainProd);
     curRecName = userdata(index,MenuRecModel::RecName);
     qDebug() << "Имя: " << curRecName << "Racion: " << Racion << "MainProd: " << MainProd;
-    emit curRecNameChanged(curRecName);
+    emit curRecNameChanged(curRecName,MainProd,Racion);
 }
 

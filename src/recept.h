@@ -8,19 +8,21 @@
 class Recept : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString input READ input WRITE setInput NOTIFY inputChanged)
-    QString in;
+    //Q_PROPERTY(QString description READ descValue NOTIFY descriptionChanged)
+    QString description,comment;
 public:
     CompositionTable composition;
     Recept(QObject *parent = 0);
     //для обработки сигналов с ListView
-    QString input() const {return in;}
-    void setInput(const QString&);
+    int curRecID;
     QString curRecName;
+
 signals:
-    void inputChanged(QString);
+    //void descriptionChanged(QString);
 public slots:
-    void curRecNameChanged(QString curRecName);
+    void curRecNameChanged(QString curRecName,QString MainProd,QString Racion);
+    QString descValue() const  { return description; }
+    QString comValue() const  { return comment; }
 };
 
 #endif // CURNAMEFORQUERY_H

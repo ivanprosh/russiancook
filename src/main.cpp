@@ -26,12 +26,14 @@ int main(int argc, char *argv[])
     Recept curRecept;
 
     //Подключаем сигналы между моделью и экземпляром рецепта
-    QObject::connect(MenuRec,SIGNAL(curRecNameChanged(QString)),&curRecept,SLOT(curRecNameChanged(QString)));
+    QObject::connect(MenuRec,SIGNAL(curRecNameChanged(QString,QString,QString)),&curRecept,SLOT(curRecNameChanged(QString,QString,QString)));
 
     //qmlRegisterType<CurNameForQuery>("com.mymodels.CurNameForQuery",1,0,"CurNameForQuery");
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("MenuRec", MenuRec);
     engine.rootContext()->setContextProperty("curReceptComposition", &(curRecept.composition));
+    engine.rootContext()->setContextProperty("SingleRecModel", &curRecept);
+    //qmlRegisterType<Recept>("com.cook.Recept",1,0,"SingleRecept");
     engine.load(QUrl(QStringLiteral("qrc:/content/Main.qml")));
 
     return app.exec();

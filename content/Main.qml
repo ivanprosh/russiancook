@@ -69,6 +69,7 @@ ApplicationWindow {
         source: "../images/toolbar.png"
         width: parent.width
         height: 150
+        property alias text: handletext.text
 
         Rectangle {
             id: backButton
@@ -93,14 +94,15 @@ ApplicationWindow {
                 anchors.fill: parent
                 anchors.margins: -10
                 onClicked: {
-                    console.log("dpi is:", Screen.pixelDensity.toString())
-                    stackView.pop()
+                    stackView.pop();
                     MenuRec.LevelUp();
+                    maintoolbar.text = MenuRec.curHandleName();
                 }
             }
         }
 
         Text {
+            id: handletext
             anchors.verticalCenter: backButton.verticalCenter
             font.pixelSize: 38
             Behavior on x { NumberAnimation{ easing.type: Easing.OutCubic} }
@@ -134,7 +136,6 @@ ApplicationWindow {
         focus: true
         Keys.onReleased: if (event.key === Qt.Key_Back && stackView.depth > 1) {
                              stackView.pop();
-                             //MenuRec.LevelUp();
                              event.accepted = true;
                             }
 
@@ -148,7 +149,8 @@ ApplicationWindow {
                     text: title
                     onClicked:{
                         stackView.push(Qt.resolvedUrl(page));
-                        MenuRec.LevelDown();
+                        MenuRec.LevelDown(maintoolbar.text);
+                        maintoolbar.text = "Рецепт"
                     }
 
                 }

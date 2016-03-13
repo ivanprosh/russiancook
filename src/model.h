@@ -8,8 +8,10 @@ class MenuRecModel : public QSqlQueryModel
 {
     Q_OBJECT
     QStack<QSqlQuery> MyqueryStack;
+    QStack<QString> HandleNameStack;
     QHash<int,QByteArray> *hash;
     int curTypeid;
+    QString HandleName;
 public:
     enum Roles  {Type = Qt::UserRole,SubType,Description,
                  RecName,RecMainProd,RecDescription,RecComment,RecRacion};
@@ -20,16 +22,25 @@ public:
 protected:
     QHash<int,QByteArray> roleNames() const;
 signals:
-    void curRecNameChanged(QString curRecName);
+    void curRecNameChanged(QString curRecName,QString MainProd,QString Racion);
 public slots:
     void CatForCurTypeQuery(int index);
     void RecForCurCatQuery(int index);
     void SingleRecQuery(int index);
 
     void LevelUp()  {this->setQuery(MyqueryStack.pop());
-                     qDebug()<<"Size of stack: "<<MyqueryStack.size();}
-    void LevelDown() {MyqueryStack.push(this->query());
-                      qDebug()<<"Size of stack: "<<MyqueryStack.size();}
+                        qDebug()<<"Size of stack: "<<MyqueryStack.size();
+                        HandleName = HandleNameStack.pop();
+                        qDebug()<<"curHandleName: " << HandleName;
+                     }
+    void LevelDown(QString HandleName)
+                     {
+                      MyqueryStack.push(this->query());
+                      HandleNameStack.push(HandleName);
+                      qDebug()<<"Size of stack: "<<MyqueryStack.size() << " " << HandleNameStack.size();
+                     }
+    QString curHandleName() const
+                     { return HandleName;}
     int StackQuerySize() {return MyqueryStack.size();}
 };
 
