@@ -40,24 +40,32 @@
 
 import QtQuick 2.2
 import QtQuick.Controls 1.4
-import QtQuick.Window 2.0
-import "scale.js" as MyScale
+import QtQuick.Window 2.2
+//import "scale.js" as MyScale
 
 ApplicationWindow {
     id: mainwindow
     visible: true
-    width: MyScale.dp(720)
-    height: MyScale.dp(1280)
 
-    //signal stackPush(int page)
-    //OnStackPush: stackView.push(Qt.resolvedUrl(page))
+    property int dpi: Screen.pixelDensity * 25.4
 
+    width: dp(720)
+    height: dp(1280)
+
+    function dp(x){
+        if(dpi < 120) {
+            console.log("In dp(x),x:",x ,"dpi is", dpi ," x*(dpi/160) is", (x*(dpi/160)));
+            return x; // Для обычного монитора компьютера
+        } else {
+            return x*(dpi/160);
+        }
+    }
 
     BorderImage {
         id: mainborder
         verticalTileMode: BorderImage.Round
         horizontalTileMode : BorderImage.Round
-        border.left: MyScale.dp(67); border.top: MyScale.dp(1); border.right: MyScale.dp(69); border.bottom: MyScale.dp(190)
+        border.left: 67; border.top: 1; border.right: 69; border.bottom: 190
         anchors { top: parent.top; bottom: parent.bottom; left:parent.left; right:parent.right  }
         source: "../images/mushrooms.png"
     }
@@ -65,7 +73,7 @@ ApplicationWindow {
         id: maintoolbar
         verticalTileMode: BorderImage.Round
         horizontalTileMode : BorderImage.Round
-        border {left: MyScale.dp(67); top: MyScale.dp(100); right: MyScale.dp(69); bottom: MyScale.dp(10)}
+        border {left: 67; top: 100; right: 69; bottom: 10}
         source: "../images/toolbar.png"
         width: parent.width
         height: 150

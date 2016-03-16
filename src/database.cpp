@@ -10,7 +10,7 @@ bool Database::createConnection()
     db.setDatabaseName(name);
 
     if (!QFile(name).exists() || !db.open()) {
-        qDebug() << "Cannot open database:" << db.lastError();
+        qDebug() << "Cannot open database:" << name << db.lastError();
         return false;
     }
     QStringList tables = db.tables();

@@ -3,7 +3,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.2
 //import com.cook.Recept 1.0
-import "scale.js" as MyScale
+//import "scale.js" as mainwindow
 
 ScrollView {
     id: receptview
@@ -11,9 +11,9 @@ ScrollView {
     height: parent.height
     horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
 
-    property string fontDescrsize: MyScale.dp(17)
-    property string fontItemsize: MyScale.dp(17)
-    property string fontHeadersize: MyScale.dp(14)
+    property string fontDescrsize: mainwindow.dp(17)
+    property string fontItemsize: mainwindow.dp(17)
+    property string fontHeadersize: mainwindow.dp(14)
     property color mainTextColor: Qt.darker("#706343")
 
     ColumnLayout {
@@ -42,7 +42,7 @@ ScrollView {
             id: composTable
             Layout.alignment: Qt.AlignHCenter
             Layout.preferredWidth: parent.width*0.8
-            Layout.minimumHeight: rowCount*MyScale.dp(40)
+            Layout.minimumHeight: rowCount*mainwindow.dp(40)
 
             TableViewColumn {
                 role: "ProductName"
@@ -124,8 +124,8 @@ ScrollView {
                 //ScrollView:
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
                 Layout.preferredWidth: parent.width-Layout.leftMargin-Layout.rightMargin
-                Layout.leftMargin: MyScale.dp(10)
-                Layout.rightMargin: MyScale.dp(10)
+                Layout.leftMargin: mainwindow.dp(10)
+                Layout.rightMargin: mainwindow.dp(10)
                 font.pixelSize: fontDescrsize;
                 horizontalAlignment : Text.AlignJustify
 

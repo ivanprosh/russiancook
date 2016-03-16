@@ -8,6 +8,16 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     //Create connect to db
+    #ifdef ANDROID
+        qDebug() << "Debug: In Android connect DB";
+        QFile dfile("assets:/RussianCook.sqlite");
+        if (dfile.exists())
+        {
+             qDebug() << "Debug: In Android connect DB dfile.exists()";
+             dfile.copy("./RussianCook.sqlite");
+             QFile::setPermissions("./RussianCook.sqlite",QFile::WriteOwner | QFile::ReadOwner);
+        }
+    #endif
     Database cook("RussianCook.sqlite");
 
     if (!cook.createConnection()) {
@@ -33,8 +43,12 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("MenuRec", MenuRec);
     engine.rootContext()->setContextProperty("curReceptComposition", &(curRecept.composition));
     engine.rootContext()->setContextProperty("SingleRecModel", &curRecept);
-    //qmlRegisterType<Recept>("com.cook.Recept",1,0,"SingleRecept");
-    engine.load(QUrl(QStringLiteral("qrc:/content/Main.qml")));
+
+    #ifdef ANDROID
+        engine.load(QUrl(QStringLiteral("assets:/content/Main.qml")));
+    #else
+        engine.load(QUrl(QStringLiteral("qrc:/content/Main.qml")));
+    #endif
 
     return app.exec();
 }
