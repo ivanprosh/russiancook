@@ -17,5 +17,12 @@
         <file>images/mushrooms.png</file>
         <file>content/SingleReceptPage.qml</file>
         <file>content/scale.js</file>
+        <file>images/navigation_popup.png</file>
+        <file>content/MyPopupMenu.qml</file>
+        <file>content/PopupMenuDelegate.qml</file>
+        <file>images/search.svg</file>
+        <file>images/menutexture.png</file>
+        <file>images/shopping_basket.svg</file>
+        <file>content/SearchPage.qml</file>
     </qresource>
 </RCC>
