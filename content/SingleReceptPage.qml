@@ -119,6 +119,7 @@ ScrollView {
         //описание
         TextArea {
                 id: textdescription
+                readOnly: true
                 backgroundVisible: false
                 frameVisible: false
                 //ScrollView:
