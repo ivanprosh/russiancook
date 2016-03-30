@@ -43,9 +43,10 @@ import QtQuick 2.2
 Item {
     id: root
     width: parent.width
-    height: 88
+    height: 50
 
     property alias text: textitem.text
+    property alias image: imageitem.source
     signal clicked
 
     Rectangle {
@@ -57,11 +58,11 @@ Item {
     Text {
         id: textitem
         color: Qt.darker("#706343")
-        font.pixelSize: 32
+        font.pixelSize: 24
         text: modelData
         anchors.verticalCenter: parent.verticalCenter
-        anchors.left: parent.left
-        anchors.leftMargin: 30
+        anchors.left: imageitem.right
+        anchors.leftMargin: 10
     }
 
 //    Rectangle {
@@ -73,10 +74,11 @@ Item {
 //    }
 
     Image {
-        anchors.right: parent.right
-        anchors.rightMargin: 20
+        id: imageitem
+        anchors.left: parent.left
+        anchors.leftMargin: 10
         anchors.verticalCenter: parent.verticalCenter
-        source: "../images/navigation_next_item.png"
+        source: modelData
     }
 
     MouseArea {

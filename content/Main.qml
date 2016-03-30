@@ -41,12 +41,13 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.4
 import QtQuick.Window 2.2
+//import Material 0.2
 //import "scale.js" as MyScale
 
 ApplicationWindow {
     id: mainwindow
     visible: true
-
+    //anchors { top: parent.top; bottom: parent.bottom; left:parent.left; right:parent.right  }
     property int dpi: Screen.pixelDensity * 25.4
 
     width: dp(720)
@@ -68,7 +69,9 @@ ApplicationWindow {
         border.left: 67; border.top: 1; border.right: 69; border.bottom: 190
         anchors { top: parent.top; bottom: parent.bottom; left:parent.left; right:parent.right  }
         source: "../images/mushrooms.png"
+       // z:2
     }
+
     toolBar: BorderImage {
         id: maintoolbar
         verticalTileMode: BorderImage.Round
@@ -102,9 +105,18 @@ ApplicationWindow {
                 anchors.fill: parent
                 anchors.margins: -10
                 onClicked: {
-                    stackView.pop();
-                    MenuRec.LevelUp();
-                    maintoolbar.text = MenuRec.curHandleName();
+                    if(!popupMenu.activeFocus){
+                        stackView.pop();
+                        if(stackView.levelpopup == 0) {
+                            MenuRec.LevelUp();
+                            maintoolbar.text = MenuRec.curHandleName();
+                            console.log("Not popup", stackView.levelpopup);
+                        } else {
+                            stackView.levelpopup--;
+                            if (stackView.levelpopup == 0) maintoolbar.text = MenuRec.curHandleName();
+                            console.log("Level popup is",stackView.levelpopup);
+                        }
+                    }
                 }
             }
         }
@@ -118,8 +130,71 @@ ApplicationWindow {
             color: Qt.darker("#706343")
             text: "Русская кухня"
         }
+
+        Rectangle {
+            id: popupButton
+            width: 60
+            anchors.top:parent.top
+            anchors.topMargin: parent.border.top*0.66
+            anchors.right: parent.right
+            anchors.rightMargin: 20+parent.border.right
+            //opacity: stackView.depth > 1 ? 1 : 0
+            antialiasing: true
+            height: 60
+            radius: 4
+            color: popupmouse.pressed ? Qt.lighter("#55BDB76B") : "transparent"
+            //Behavior on opacity { NumberAnimation{} }
+            Image {
+                anchors.verticalCenter: parent.verticalCenter
+                source: "../images/navigation_popup.png"
+            }
+            MouseArea {
+                id: popupmouse
+                anchors.fill: parent
+                anchors.margins: -10
+                onClicked: {
+                     popupMenu.activeFocus ? (stackView.focus = true) : (popupMenu.focus = true)
+                }
+            }
+        }
+    }
+    Rectangle {
+        id: shade
+        anchors.fill: parent
+        color: Qt.darker("#706343")
+        opacity: 0
+        MouseArea
+        {
+            enabled: false
+            id: shademouse
+            anchors.fill: parent;
+            onClicked:
+            {
+                stackView.focus = true;
+                enabled = false
+            }
+        }
+        z:10
     }
 
+    MyPopupMenu { id: popupMenu; x:mainwindow.width; height: 260; width: parent.width/2; z:11}
+
+    Rectangle{
+        anchors.fill: parent
+        color: "transparent"
+
+        states: State {
+            name: "PopupMenuOpen"
+            when: !stackView.activeFocus
+            PropertyChanges { target: popupMenu; x:mainwindow.width-popupMenu.width ; open: true }
+            PropertyChanges { target: shade; opacity: 0.25 }
+            PropertyChanges { target: shademouse; enabled: true }
+        }
+
+        transitions: Transition {
+            NumberAnimation { properties: "x,opacity"; duration: 600; easing.type: Easing.OutQuint }
+        }
+    }
     ListModel {
         id: pageModel
 
@@ -131,6 +206,10 @@ ApplicationWindow {
             title: "Календарь"
             page: "CalendarPage.qml"
         }
+        ListElement {
+            title: "Тест"
+            page: "PopupMenu.qml"
+        }
 
     }
 
@@ -140,6 +219,8 @@ ApplicationWindow {
         anchors.leftMargin: mainborder.border.left
         anchors.rightMargin: mainborder.border.right
         anchors.bottomMargin: mainborder.border.bottom
+
+        property int levelpopup: 0;
         // Implements back key navigation
         focus: true
         Keys.onReleased: if (event.key === Qt.Key_Back && stackView.depth > 1) {
@@ -192,6 +273,6 @@ ApplicationWindow {
     }
 
 }
-
 }
+
 
