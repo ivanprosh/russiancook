@@ -25,7 +25,10 @@ android {
     message( "My Win build in...")
     message($$OUT_PWD )
     deployment.path = $$OUT_PWD/
-    deployment.files = database/RussianCook.sqlite
+    deployment.files += database/RussianCook.sqlite \
+                        database/libsqlite3-0.dll \
+                        database/unicodesn.sqlext
+
 }
 
 INSTALLS += deployment

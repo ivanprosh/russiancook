@@ -23,7 +23,24 @@ int main(int argc, char *argv[])
     if (!cook.createConnection()) {
             return -1;
         }
-    //Ok, then create example of SQLmodel
+    //Ok, load fts module
+    QSqlRecord rec;
+    QSqlQuery query;
+
+    if(query.exec("SELECT load_extension(\"unicodesn.sqlext\")"))
+    {
+        rec = query.record();
+        if(query.next())
+        {
+           qDebug()<<"SQL ok";
+        }
+    }
+    else
+    {
+        qDebug() << "SQL not ok, " << query.lastError();
+        return -1;
+    }
+    //
     QStringList ModelHeaders;
 
     ModelHeaders << "Type" << "SubType" << "Description";
