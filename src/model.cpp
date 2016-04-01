@@ -1,7 +1,7 @@
 #include "model.h"
 
 //explicit model(QObject *parent = 0):QSqlQueryModel(parent) {}
-MenuRecModel::MenuRecModel(QStringList headers,QString initquery, QObject *parent):QSqlQueryModel(parent)
+Model::Model(QStringList headers,QString initquery, QObject *parent):QSqlQueryModel(parent)
 {
     hash = new QHash<int,QByteArray>;
     for(int curIndex = 0;curIndex<headers.size();curIndex++)
@@ -10,12 +10,12 @@ MenuRecModel::MenuRecModel(QStringList headers,QString initquery, QObject *paren
     }
 
     this->setQuery(initquery);
-    MyqueryStack.push(QSqlQuery("NULL"));
+    //MyqueryStack.push(QSqlQuery("NULL"));
     //HandleName = "Русская кухня";
     //HandleNameStack.push(HandleName);
 }
 
-QVariant MenuRecModel::data(const QModelIndex &index, int role) const
+QVariant Model::data(const QModelIndex &index, int role) const
 {
     if(role < Qt::UserRole) {
               return QSqlQueryModel::data(index, role);
@@ -23,50 +23,50 @@ QVariant MenuRecModel::data(const QModelIndex &index, int role) const
     return userdata(index.row(),role);
 }
 
-QHash<int, QByteArray> MenuRecModel::roleNames() const
+QHash<int, QByteArray> Model::roleNames() const
 {
     return *hash;
 }
-QString MenuRecModel::userdata(int row,int role) const
+QString Model::userdata(int row,int role) const
 {
     QSqlRecord r = record(row);
     return r.value(QString(hash->value(role))).toString();
 }
 
-void MenuRecModel::CatForCurTypeQuery(int index) //clicked item in menu list types
-{
-    QSqlRecord rec;
-    QSqlQuery query;
-    QString MycurQuery = "SELECT Distinct ID_Type,%1 "
-                                  "FROM ReceptType "
-                                  "WHERE %2 = '%3' ";
-    MycurQuery = MycurQuery.arg("SubType")
-                           .arg(QString(hash->value(MenuRecModel::Type)))
-                           .arg(userdata(index,MenuRecModel::Type));
-    //запоминаем id текущей пары из словаря Тип-Категория
-    query.exec(MycurQuery);
-    rec = query.record();
-    query.next();
-    curTypeid = query.value(rec.indexOf("ID_Type")).toInt();
+//void Model::CatForCurTypeQuery(int index) //clicked item in menu list types
+//{
+//    QSqlRecord rec;
+//    QSqlQuery query;
+//    QString MycurQuery = "SELECT Distinct ID_Type,%1 "
+//                                  "FROM ReceptType "
+//                                  "WHERE %2 = '%3' ";
+//    MycurQuery = MycurQuery.arg("SubType")
+//                           .arg(QString(hash->value(Model::Type)))
+//                           .arg(userdata(index,Model::Type));
+//    //запоминаем id текущей пары из словаря Тип-Категория
+//    query.exec(MycurQuery);
+//    rec = query.record();
+//    query.next();
+//    curTypeid = query.value(rec.indexOf("ID_Type")).toInt();
 
-    this->setQuery(MycurQuery);
-}
-void MenuRecModel::RecForCurCatQuery(int index) //clicked item in menu list types
-{
-    QString MycurQuery = "SELECT Recept.Name, "
-                         "Product.Name as MainProd,"
-                         "Recept.Racion "
-                         "FROM Recept LEFT JOIN Product ON Product.ID_PR = Recept.ID_MainPr "
-                         "WHERE Recept.Type = (SELECT ID_Type FROM ReceptType WHERE SubType='%1');";
-    MycurQuery = MycurQuery.arg(userdata(index,MenuRecModel::SubType));
-    this->setQuery(MycurQuery);
-}
-void MenuRecModel::SingleRecQuery(int index)
-{
-    QString Racion = userdata(index,MenuRecModel::RecRacion);
-    QString MainProd = userdata(index,MenuRecModel::RecMainProd);
-    curRecName = userdata(index,MenuRecModel::RecName);
-    qDebug() << "Имя: " << curRecName << "Racion: " << Racion << "MainProd: " << MainProd;
-    emit curRecNameChanged(curRecName,MainProd,Racion);
-}
+//    this->setQuery(MycurQuery);
+//}
+//void Model::RecForCurCatQuery(int index) //clicked item in menu list types
+//{
+//    QString MycurQuery = "SELECT Recept.Name, "
+//                         "Product.Name as MainProd,"
+//                         "Recept.Racion "
+//                         "FROM Recept LEFT JOIN Product ON Product.ID_PR = Recept.ID_MainPr "
+//                         "WHERE Recept.Type = (SELECT ID_Type FROM ReceptType WHERE SubType='%1');";
+//    MycurQuery = MycurQuery.arg(userdata(index,Model::SubType));
+//    this->setQuery(MycurQuery);
+//}
+//void Model::SingleRecQuery(int index)
+//{
+//    QString Racion = userdata(index,Model::RecRacion);
+//    QString MainProd = userdata(index,Model::RecMainProd);
+//    curRecName = userdata(index,Model::RecName);
+//    qDebug() << "Имя: " << curRecName << "Racion: " << Racion << "MainProd: " << MainProd;
+//    emit curRecNameChanged(curRecName,MainProd,Racion);
+//}
 

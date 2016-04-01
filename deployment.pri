@@ -13,7 +13,8 @@ unix:!android {
 android {
     message( "My android build..." )
     deployment.path = /assets
-    deployment.files = database/RussianCook.sqlite
+    deployment.files += database/RussianCook.sqlite \
+
     images.path = /assets/images
     images.files = images/*
     content.path =  /assets/content
@@ -21,13 +22,13 @@ android {
     INSTALLS += images
     INSTALLS += content
 
+
 } else {
     message( "My Win build in...")
     message($$OUT_PWD )
     deployment.path = $$OUT_PWD/
     deployment.files += database/RussianCook.sqlite \
-                        database/libsqlite3-0.dll \
-                        database/unicodesn.sqlext
+
 
 }
 

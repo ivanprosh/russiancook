@@ -37,66 +37,65 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-
-import QtQuick 2.2
-import QtQuick.Controls 1.4
+import QtQuick 2.0
 
 FocusScope {
-    id: container
+    id: searchdelegate
+    property string label: ""
+    property string placeHolder: ""
+    property alias searchText: lineInput.text
+    property alias prefix: lineInput.prefix
+    property bool opened: false
+    signal ok
+    signal hasOpened
 
-    property bool open: false
+    height: 60
+    width: parent.width
 
-//    Item {
-//        anchors.fill: parent
+    function open() {
+        searchdelegate.opened = true
+        lineInput.forceActiveFocus()
+        searchdelegate.hasOpened()
+    }
 
-        ListModel {
-            id: popupMenuModel
-
-            ListElement {
-                title: "Поиск"
-                sourceimage: "../images/search.svg"
-                page: "SearchPage.qml"
-            }
-            ListElement {
-                title: "Корзина"
-                sourceimage: "../images/shopping_basket.svg"
-                page: ""
-            }
-
+    function close() {
+        if (opened) {
+            searchdelegate.opened = false
         }
+    }
 
-        BorderImage {
-               // id: maintoolbar
-                verticalTileMode: BorderImage.Round
-                horizontalTileMode : BorderImage.Round
-                border {left: 15; top: 0; right: 0; bottom: 10}
-                source: "../images/menutexture.png"
-                anchors.fill: parent
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        onClicked: {
+            if (!searchdelegate.opened)
+                open()
+            else if (!lineInput.activeFocus)
+                lineInput.forceActiveFocus()
+        }
+    }
 
-            ListView {
-                id: listpopup
-                focus: true
-                model: popupMenuModel
-                anchors.fill: parent
 
-                delegate: PopupMenuDelegate {
-                    text: title
-                    image: sourceimage
-                    onClicked:{
-                        stackView.push(Qt.resolvedUrl(page));
-                        stackView.levelpopup++;
-                        stackView.focus = true;
-                        console.log("curr index",listpopup.currentIndex)
-                       // if(listpopup.currentIndex == 0) maintoolbar.searchpage = true;
-                        maintoolbar.text = title;
-                    }
+    Rectangle {
+        anchors.fill: parent
+        color: "transparent"
 
-                }
+        //Rectangle { color: "#c1c1c1"; width: parent.width; height: 1 }
+        //Rectangle { color: lineInput.activeFocus ? Qt.darker("#CC706343") : Qt.darker("#33706343");
+          //          width: parent.width; height: 1; anchors.bottom: parent.bottom }
+
+        LineInput {
+            id: lineInput
+            hint: searchdelegate.placeHolder
+            focus: searchdelegate.opened
+            anchors { fill: parent; margins: 0 }
+            onAccepted: {
+                if (Qt.inputMethod.visible)
+                    Qt.inputMethod.hide()
+                searchdelegate.ok()
             }
         }
-
+    }
 }
-
-//}
 
 

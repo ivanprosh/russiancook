@@ -24,5 +24,12 @@
         <file>images/menutexture.png</file>
         <file>images/shopping_basket.svg</file>
         <file>content/SearchPage.qml</file>
+        <file>content/LineInput.qml</file>
+        <file>content/SearchInitAnimation.qml</file>
+        <file>images/icon-search.png</file>
+        <file>images/bird-anim-sprites.png</file>
+        <file>content/SearchDelegate.qml</file>
+        <file>content/FTSListDelegate.qml</file>
+        <file>content/FlipBar.qml</file>
     </qresource>
 </RCC>

@@ -38,65 +38,63 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.2
-import QtQuick.Controls 1.4
+import QtQuick 2.0
 
-FocusScope {
-    id: container
-
-    property bool open: false
-
-//    Item {
-//        anchors.fill: parent
-
-        ListModel {
-            id: popupMenuModel
-
-            ListElement {
-                title: "Поиск"
-                sourceimage: "../images/search.svg"
-                page: "SearchPage.qml"
-            }
-            ListElement {
-                title: "Корзина"
-                sourceimage: "../images/shopping_basket.svg"
-                page: ""
-            }
-
+Rectangle {
+    color: "#d6d6d6"
+    width: parent.width
+    height: childrenRect.height
+    z: 2
+//    Connections {
+//        target: mainListView
+//        onAutoSearch: {
+//            if (type == 'tag') {
+//                tagSearch.open()
+//                tagSearch.searchText = str
+//            } else if (type == 'user'){
+//                userSearch.open()
+//                userSearch.searchText = str
+//            } else {
+//                wordSearch.open()
+//                wordSearch.searchText = str
+//            }
+//        }
+//    }
+    SpriteSequence {
+        id: sprite
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: 320
+        height: 300
+        running: true
+        interpolate: false
+        Sprite {
+            name: "bird"
+            source: "../images/bird-anim-sprites.png"
+            frameCount: 1
+            frameRate: 1
+            frameWidth: 320
+            frameHeight: 300
+            to: { "bird":10, "trill":1, "blink":1 }
         }
-
-        BorderImage {
-               // id: maintoolbar
-                verticalTileMode: BorderImage.Round
-                horizontalTileMode : BorderImage.Round
-                border {left: 15; top: 0; right: 0; bottom: 10}
-                source: "../images/menutexture.png"
-                anchors.fill: parent
-
-            ListView {
-                id: listpopup
-                focus: true
-                model: popupMenuModel
-                anchors.fill: parent
-
-                delegate: PopupMenuDelegate {
-                    text: title
-                    image: sourceimage
-                    onClicked:{
-                        stackView.push(Qt.resolvedUrl(page));
-                        stackView.levelpopup++;
-                        stackView.focus = true;
-                        console.log("curr index",listpopup.currentIndex)
-                       // if(listpopup.currentIndex == 0) maintoolbar.searchpage = true;
-                        maintoolbar.text = title;
-                    }
-
-                }
-            }
+        Sprite {
+            name: "trill"
+            source: "../images/bird-anim-sprites.png"
+            frameCount: 5
+            frameRate: 3
+            frameWidth: 320
+            frameHeight: 300
+            to: {"bird":1}
         }
-
+        Sprite {
+            name: "blink"
+            source: "../images/bird-anim-sprites.png"
+            frameCount: 1
+            frameRate: 3
+            frameWidth: 320
+            frameHeight: 300
+            frameX: 1600
+            to: {"bird":1}
+        }
+    }
 }
-
-//}
-
 

@@ -2,6 +2,7 @@
 #include <QtQml>
 #include "database.h"
 #include "model.h"
+#include "menumodel.h"
 #include "recept.h"
 
 int main(int argc, char *argv[])
@@ -11,6 +12,7 @@ int main(int argc, char *argv[])
     #ifdef ANDROID
         qDebug() << "Debug: In Android connect DB";
         QFile dfile("assets:/RussianCook.sqlite");
+
         if (dfile.exists())
         {
              qDebug() << "Debug: In Android connect DB dfile.exists()";
@@ -23,33 +25,17 @@ int main(int argc, char *argv[])
     if (!cook.createConnection()) {
             return -1;
         }
-    //Ok, load fts module
-    QSqlRecord rec;
-    QSqlQuery query;
 
-    if(query.exec("SELECT load_extension(\"unicodesn.sqlext\")"))
-    {
-        rec = query.record();
-        if(query.next())
-        {
-           qDebug()<<"SQL ok";
-        }
-    }
-    else
-    {
-        qDebug() << "SQL not ok, " << query.lastError();
-        return -1;
-    }
-    //
-    QStringList ModelHeaders;
+    QStringList MenuModelHeaders;
 
-    ModelHeaders << "Type" << "SubType" << "Description";
-    ModelHeaders << "Name" << "MainProd" << "Racion" << "Description" << "Comment" ; //Таблица Рецептов
+    MenuModelHeaders << "Type" << "SubType" << "Description";
+    MenuModelHeaders << "Name" << "MainProd" << "Racion" << "Description" << "Comment" ; //Таблица Рецептов
 
 
     QString initQuery = "SELECT Distinct Type "
                         "FROM ReceptType ";
-    MenuRecModel* MenuRec = new MenuRecModel(ModelHeaders,initQuery);
+    MenuModel* MenuRec = new MenuModel(MenuModelHeaders,initQuery);
+    //Model* SearchLists = new Model(ModelHeaders,initQuery);
     Recept curRecept;
 
     //Подключаем сигналы между моделью и экземпляром рецепта

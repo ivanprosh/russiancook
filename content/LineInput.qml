@@ -38,65 +38,62 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.2
-import QtQuick.Controls 1.4
+import QtQuick 2.0
 
 FocusScope {
-    id: container
+    id: wrapper
 
-    property bool open: false
+    property alias text: input.text
+    property alias hint: hint.text
+    property alias prefix: prefix.text
 
-//    Item {
-//        anchors.fill: parent
+    signal accepted
 
-        ListModel {
-            id: popupMenuModel
+    Rectangle {
+        anchors.fill: parent
+        border.color: wrapper.activeFocus ? Qt.darker("#CC706343") : Qt.darker("#33706343")
+        border.width: wrapper.activeFocus ? 4 : 2
+        color: "transparent"
+        radius: 4
 
-            ListElement {
-                title: "Поиск"
-                sourceimage: "../images/search.svg"
-                page: "SearchPage.qml"
-            }
-            ListElement {
-                title: "Корзина"
-                sourceimage: "../images/shopping_basket.svg"
-                page: ""
-            }
-
+        Text {
+            id: hint
+            anchors { fill: parent; leftMargin: 14 }
+            verticalAlignment: Text.AlignVCenter
+            text: "яйцо варить"
+            font.pixelSize: 18
+            color: "gray"
+            opacity: input.length ? 0 : 1
         }
 
-        BorderImage {
-               // id: maintoolbar
-                verticalTileMode: BorderImage.Round
-                horizontalTileMode : BorderImage.Round
-                border {left: 15; top: 0; right: 0; bottom: 10}
-                source: "../images/menutexture.png"
-                anchors.fill: parent
-
-            ListView {
-                id: listpopup
-                focus: true
-                model: popupMenuModel
-                anchors.fill: parent
-
-                delegate: PopupMenuDelegate {
-                    text: title
-                    image: sourceimage
-                    onClicked:{
-                        stackView.push(Qt.resolvedUrl(page));
-                        stackView.levelpopup++;
-                        stackView.focus = true;
-                        console.log("curr index",listpopup.currentIndex)
-                       // if(listpopup.currentIndex == 0) maintoolbar.searchpage = true;
-                        maintoolbar.text = title;
-                    }
-
-                }
-            }
+        Text {
+            id: prefix
+            anchors { left: parent.left; leftMargin: 14; verticalCenter: parent.verticalCenter }
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: 18
+            color: "#707070"
+            opacity: !hint.opacity
         }
 
+        TextInput {
+            id: input
+            focus: true
+            anchors { left: prefix.right; right: parent.right; top: parent.top; bottom: parent.bottom }
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: 18
+            color: "black"
+            onAccepted: wrapper.accepted()
+        }
+
+        Image {
+            source: "../images/icon-search.png"
+            anchors.right: parent.right
+            anchors.rightMargin: 12
+            anchors.verticalCenter: parent.verticalCenter
+            MouseArea {
+                anchors { fill: parent; margins: -10 }
+                onClicked: wrapper.accepted()
+            }
+        }
+    }
 }
-
-//}
-
-

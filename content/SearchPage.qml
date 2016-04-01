@@ -7,6 +7,7 @@ import QtQuick.Layouts 1.2
 
 ScrollView {
     id: receptview
+    objectName: "search"
     width: parent.width
     height: parent.height
     horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
@@ -16,36 +17,11 @@ ScrollView {
     property string fontHeadersize: mainwindow.dp(14)
     property color mainTextColor: Qt.darker("#706343")
 
-    ColumnLayout {
+    ListView {
         width: stackView.width
         height: children.height
 
-        //описание
-        TextArea {
-                //id: textdescription
-                backgroundVisible: false
-                frameVisible: false
-                //ScrollView:
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                Layout.preferredWidth: parent.width-Layout.leftMargin-Layout.rightMargin
-                Layout.leftMargin: mainwindow.dp(10)
-                Layout.rightMargin: mainwindow.dp(10)
-                font.pixelSize: fontDescrsize;
-                horizontalAlignment : Text.AlignJustify
-
-                style: TextAreaStyle {
-                          textColor: mainTextColor
-                          selectionColor: Qt.lighter("#91884d")
-                          selectedTextColor: "#6f6242"
-                          backgroundColor: "transparent"
-                          renderType: Text.NativeRendering
-                }
-
-                onTextChanged:
-                {Layout.preferredHeight = contentHeight
-                 console.log("Text changed! height:",contentHeight)}
-            }
-
+        footer: SearchInitAnimation {}
     }
 
     style: ScrollViewStyle {

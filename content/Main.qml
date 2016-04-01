@@ -51,7 +51,8 @@ ApplicationWindow {
     property int dpi: Screen.pixelDensity * 25.4
 
     width: dp(720)
-    height: dp(1280)
+    height: if(Qt.platform.os == "windows") dp(640)
+            else dp(1280)
 
     function dp(x){
         if(dpi < 120) {
@@ -81,6 +82,7 @@ ApplicationWindow {
         width: parent.width
         height: 150
         property alias text: handletext.text
+        property bool searchpage: stackView.currentItem.objectName == "search"
 
         Rectangle {
             id: backButton
@@ -129,6 +131,30 @@ ApplicationWindow {
             x: backButton.x + backButton.width + 20
             color: Qt.darker("#706343")
             text: "Русская кухня"
+            visible: !maintoolbar.searchpage
+        }
+
+        SearchDelegate {
+            id: wordSearch
+            anchors.top:parent.top
+            anchors.topMargin: parent.border.top*0.66
+            anchors.left: backButton.right
+            anchors.right: parent.right
+            anchors.rightMargin: 20+parent.border.right
+            label: "Search word..."
+            placeHolder: "Яйцо варить"
+            onHasOpened: {
+//                tagSearch.close()
+//                userSearch.close()
+
+            }
+            onOk: {
+//                mainListView.positionViewAtBeginning()
+//                mainListView.clear()
+//                tweetsModel.from = ""
+//                tweetsModel.phrase = searchText
+            }
+            visible: maintoolbar.searchpage
         }
 
         Rectangle {
@@ -155,7 +181,9 @@ ApplicationWindow {
                 onClicked: {
                      popupMenu.activeFocus ? (stackView.focus = true) : (popupMenu.focus = true)
                 }
+                enabled: !maintoolbar.searchpage
             }
+            visible: !maintoolbar.searchpage
         }
     }
     Rectangle {
@@ -240,6 +268,7 @@ ApplicationWindow {
                         stackView.push(Qt.resolvedUrl(page));
                         MenuRec.LevelDown(maintoolbar.text);
                         maintoolbar.text = "Рецепт"
+                        console.log(stackView.currentItem.objectName," and ",Qt.resolvedUrl("ReceptTypePage.qml"));
                     }
 
                 }

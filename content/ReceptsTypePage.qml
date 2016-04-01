@@ -44,6 +44,8 @@ import QtQuick.Controls.Styles 1.1
 //import com.mymodels.CurNameForQuery 1.0
 
 ScrollView {
+    id: receptTypes
+    objectName: "myRect"
     width: parent.width
     height: parent.height
 
@@ -61,7 +63,6 @@ ScrollView {
               maintoolbar.text = listReceptTypes.currentItem.text;
               stackView.push(Qt.resolvedUrl("ReceptCategoryPage.qml"));
               MenuRec.CatForCurTypeQuery(index,"SubType");
-
               }
         }
     }
