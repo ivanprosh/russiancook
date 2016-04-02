@@ -3,6 +3,7 @@
 #include "database.h"
 #include "model.h"
 #include "menumodel.h"
+#include "searchmodel.h"
 #include "recept.h"
 
 int main(int argc, char *argv[])
@@ -26,15 +27,17 @@ int main(int argc, char *argv[])
             return -1;
         }
 
-    QStringList MenuModelHeaders;
+    QStringList MenuModelHeaders,SearchModelHeaders;
 
     MenuModelHeaders << "Type" << "SubType" << "Description";
     MenuModelHeaders << "Name" << "MainProd" << "Racion" << "Description" << "Comment" ; //Таблица Рецептов
 
+    SearchModelHeaders << "Name" << "MainProd" << "Compos" << "Type" << "SubType" << "Racion" << "Description" << "Comment";
 
     QString initQuery = "SELECT Distinct Type "
                         "FROM ReceptType ";
     MenuModel* MenuRec = new MenuModel(MenuModelHeaders,initQuery);
+    SearchModel* MenuSearch = new SearchModel(SearchModelHeaders,"");
     //Model* SearchLists = new Model(ModelHeaders,initQuery);
     Recept curRecept;
 
@@ -44,6 +47,7 @@ int main(int argc, char *argv[])
     //qmlRegisterType<CurNameForQuery>("com.mymodels.CurNameForQuery",1,0,"CurNameForQuery");
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("MenuRec", MenuRec);
+    engine.rootContext()->setContextProperty("MenuSearch", MenuSearch);
     engine.rootContext()->setContextProperty("curReceptComposition", &(curRecept.composition));
     engine.rootContext()->setContextProperty("SingleRecModel", &curRecept);
 

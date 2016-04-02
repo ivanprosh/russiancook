@@ -17,9 +17,31 @@ ScrollView {
     property string fontHeadersize: mainwindow.dp(14)
     property color mainTextColor: Qt.darker("#706343")
 
+    Component.onCompleted:
+    {
+        console.log("!Search page is loaded...")
+        MenuSearch.initQuery();
+    }
+
     ListView {
+        id: searchResultsList
         width: stackView.width
         height: children.height
+        model: MenuSearch
+
+        delegate: FTSListDelegate {
+            receptName: Name
+            receptMainProd: MainProd
+            receptRacion: Racion
+            receptCompos: Compos
+            receptDescription: Description
+        }
+        populate: Transition {
+            //NumberAnimation { property: "y"; from: 1000; duration: 500; easing.type: Easing.InOutQuad }
+            //NumberAnimation { property: "hm"; from: 0; to: 1.0; duration: 300; easing.type: Easing.Linear }
+            NumberAnimation { property: "opacity"; from: 0.3; to: 1.0; duration: 500; easing.type: Easing.InOutQuad }
+        }
+        onDragEnded: console.log("onDragEnded")
 
         footer: SearchInitAnimation {}
     }

@@ -9,7 +9,7 @@ Model::Model(QStringList headers,QString initquery, QObject *parent):QSqlQueryMo
         hash->insert(Qt::UserRole+curIndex, headers.value(curIndex).toUtf8());
     }
 
-    this->setQuery(initquery);
+    if(!initquery.isEmpty()) this->setQuery(initquery);
     //MyqueryStack.push(QSqlQuery("NULL"));
     //HandleName = "Русская кухня";
     //HandleNameStack.push(HandleName);

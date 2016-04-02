@@ -149,6 +149,8 @@ ApplicationWindow {
 
             }
             onOk: {
+                  console.log("Word completed: ",searchText)
+                  MenuSearch.selectWord(searchText);
 //                mainListView.positionViewAtBeginning()
 //                mainListView.clear()
 //                tweetsModel.from = ""

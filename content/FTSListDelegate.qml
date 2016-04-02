@@ -52,6 +52,7 @@ Item {
     property alias receptMainProd: mainprod.text
     property alias receptRacion: racion.text
     property alias receptCompos: compos.text
+    property alias receptDescription: description.text
 
 //    property alias receptDescription: .text
 
@@ -60,7 +61,13 @@ Item {
 //    property string fontHeadersize: mainwindow.dp(14)
     property color mainTextColor: Qt.darker("#706343")
 
+    Component.onCompleted: {
+       //NumberAnimation { property: "hm"; from: 0; to: 1.0; duration: 300; easing.type: Easing.Linear }
+       //PropertyAction { property: "appear"; value: 250 }
+    }
+
     onAppearChanged: {
+        console.log("AppearChanged");
         container.startRotation = 0.5
         flipBar.animDuration = appear;
         delayedAnim.start();
@@ -83,7 +90,7 @@ Item {
 
         anchors.bottom: parent.bottom
         width: container.ListView.view ? container.ListView.view.width : 0
-        height: Math.max(72, tweet.y + tweet.height + 10)
+        height: 72//Math.max(72, tweet.y + tweet.height + 10)
 
         front: Rectangle {
             width: container.ListView.view ? container.ListView.view.width : 0
@@ -137,6 +144,14 @@ Item {
 //                    source: "../images/navigation_next_item.png"
 //                }
 //            }
+            MouseArea {
+                id: mouseArea
+                anchors.fill: parent
+                onClicked: {
+                    flipBar.flipUp()
+                    flipBar.flipped = true
+                }
+            }
             RowLayout {
                 anchors.fill: parent
                 anchors.margins: 10
@@ -170,7 +185,7 @@ Item {
                         wrapMode: Text.WordWrap
                         font.pixelSize: 10
                         font.bold: false
-                        color: Qt.lighter(mainTextColor)
+                        //color: Qt.lighter(mainTextColor)
                         //linkColor: "white"
                     }
                     Text {
@@ -189,30 +204,23 @@ Item {
 
         back: Rectangle {
             width: container.ListView.view ? container.ListView.view.width : 0
-            height: Math.max(72, tweet.y + tweet.height + 10)
+            height: 72//Math.max(72, tweet.y + tweet.height + 10)
             color: "#be4a25"
 
             Rectangle { color: "#ff6633"; width: parent.width; height: 1 }
             Rectangle { color: "#80341a"; width: parent.width; height: 1; anchors.bottom: parent.bottom }
 
-            Image {
-                id: avatar2
-                //source: model.userImage
-                anchors.right: parent.right
-                anchors.rightMargin: 10
-                y: 9
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        flipBar.flipDown()
-                        flipBar.flipped = false
-                    }
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    flipBar.flipDown()
+                    flipBar.flipped = false
                 }
             }
 
             Text {
-                id: username
-                //text: model.twitterName
+                id: description
+                text: modeldata
                 x: 10; anchors { top: avatar2.top; topMargin: -3 }
                 font.pixelSize: 12
                 font.bold: true
@@ -222,7 +230,7 @@ Item {
 
             Text {
                 //text: model.source + "<br>" + Helper.formatDate(model.published) + "<br>" + model.uri
-                x: 10; anchors { top: username.bottom; topMargin: 0 }
+                x: 10; anchors { top: description.bottom; topMargin: 0 }
                 wrapMode: Text.WordWrap
                 font.pixelSize: 12
                 font.bold: false
