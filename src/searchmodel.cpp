@@ -6,6 +6,7 @@ SearchModel::SearchModel(QStringList headers,QString initquery, QObject *parent)
 
 void SearchModel::initQuery()
 {
+
     QSqlQuery SQLquery;
     //Сначала создаем виртуальную таблицу и добавляем в нее нужные поля для поиска
     QString Createquery = " CREATE VIRTUAL TABLE IF NOT EXISTS ftstest10 USING fts4 		"
@@ -47,7 +48,9 @@ void SearchModel::initQuery()
 
 void SearchModel::selectWord(QString Word)
 {
-    qDebug() << "In slot selectWord";
+    this->clear();
+    qDebug() << "In slot selectWord" << Word;
+    //QSqlQuery SQLq;
     QString query =   " SELECT snippet(ftstest10,'<b>', '</b>','...',0) AS Name,			"
                       "        snippet(ftstest10,'<b>', '</b>','...',1) AS MainProd,      "
                       " 	   snippet(ftstest10,'<b>', '</b>','...',6) AS Compos,          "
@@ -56,7 +59,8 @@ void SearchModel::selectWord(QString Word)
                       "        snippet(ftstest10,'<b>', '</b>','...',2) AS Racion,        "
                       "        snippet(ftstest10,'<b>', '</b>','...',3) AS Description    "
                       " FROM ftstest10 WHERE ftstest10 MATCH '%1';                        ";
-    query.arg(Word);
+    query = query.arg(Word);
+    //if(SQLq.exec())
     this->setQuery(query);
 }
 

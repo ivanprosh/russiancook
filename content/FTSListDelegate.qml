@@ -40,6 +40,7 @@
 
 import QtQuick 2.2
 import QtQuick.Layouts 1.1
+import QtQuick.Controls 1.4
 //import "tweetsearch.js" as Helper
 
 Item {
@@ -54,9 +55,7 @@ Item {
     property alias receptCompos: compos.text
     property alias receptDescription: description.text
 
-//    property alias receptDescription: .text
-
-//    property string fontDescrsize: mainwindow.dp(17)
+    property string fontDescrsize: mainwindow.dp(17)
 //    property string fontItemsize: mainwindow.dp(17)
 //    property string fontHeadersize: mainwindow.dp(14)
     property color mainTextColor: Qt.darker("#706343")
@@ -90,11 +89,15 @@ Item {
 
         anchors.bottom: parent.bottom
         width: container.ListView.view ? container.ListView.view.width : 0
-        height: 72//Math.max(72, tweet.y + tweet.height + 10)
+        height: front.visible ? 72 : Math.max(72, description.height + 10)
+
+        Behavior on height{
+            NumberAnimation  { duration: 500; easing.type: Easing.InOutQuad }
+        }
 
         front: Rectangle {
             width: container.ListView.view ? container.ListView.view.width : 0
-            height: 72//Math.max(72, tweet.y + tweet.height + 10)
+            height: 72
             color: "#CCc4b891"
 
             Rectangle { color: "#33c4b891"; width: parent.width; height: 1 }
@@ -121,29 +124,6 @@ Item {
 //                }
 //            }
 
-//************* from ReceptsListDelegate
-
-//            RowLayout {
-//                anchors.fill: parent
-//                anchors.margins: 10
-//                spacing: 5
-//                Image {
-//                    Layout.minimumWidth: 10
-//                    Layout.minimumHeight: 10
-//                    source: RecImage
-//                    smooth: true
-//                }
-//                Column {
-//                    Layout.fillWidth: true
-//                    Text {id: elname; color: Qt.darker("#706343"); text: modelData; font.pointSize: 12}
-//                    Text {id: elprod; color: "#706343"; text: modelData; font.pointSize: 10}
-//                    Text {id: elrac; color: Qt.tint(elname.color,elprod.color); text: modelData; font.pointSize: 8}
-//                }
-//                Image {
-//                    anchors.right: parent.right
-//                    source: "../images/navigation_next_item.png"
-//                }
-//            }
             MouseArea {
                 id: mouseArea
                 anchors.fill: parent
@@ -204,8 +184,8 @@ Item {
 
         back: Rectangle {
             width: container.ListView.view ? container.ListView.view.width : 0
-            height: 72//Math.max(72, tweet.y + tweet.height + 10)
-            color: "#be4a25"
+            height: Math.max(72, description.height + 10)
+            color: "#9b953d"
 
             Rectangle { color: "#ff6633"; width: parent.width; height: 1 }
             Rectangle { color: "#80341a"; width: parent.width; height: 1; anchors.bottom: parent.bottom }
@@ -218,15 +198,17 @@ Item {
                 }
             }
 
-            Text {
-                id: description
-                text: modeldata
-                x: 10; anchors { top: avatar2.top; topMargin: -3 }
-                font.pixelSize: 12
-                font.bold: true
-                color: "white"
-                linkColor: "white"
-            }
+            TextArea {
+                    id: description
+                    readOnly: true
+                    backgroundVisible: false
+                    frameVisible: false
+                    font.pixelSize: fontDescrsize;
+                    horizontalAlignment : Text.AlignJustify
+                    text: modeldata
+                    height: contentHeight
+
+                }
 
             Text {
                 //text: model.source + "<br>" + Helper.formatDate(model.published) + "<br>" + model.uri

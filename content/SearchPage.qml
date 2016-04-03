@@ -2,11 +2,9 @@ import QtQuick 2.2
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.2
-//import com.cook.Recept 1.0
-//import "scale.js" as mainwindow
 
 ScrollView {
-    id: receptview
+    id: idsearchpage
     objectName: "search"
     width: parent.width
     height: parent.height
@@ -16,6 +14,9 @@ ScrollView {
     property string fontItemsize: mainwindow.dp(17)
     property string fontHeadersize: mainwindow.dp(14)
     property color mainTextColor: Qt.darker("#706343")
+
+    signal forceLayout
+    onForceLayout: searchResultsList.forceLayout()
 
     Component.onCompleted:
     {

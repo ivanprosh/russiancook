@@ -149,9 +149,9 @@ ApplicationWindow {
 
             }
             onOk: {
-                  console.log("Word completed: ",searchText)
+                  console.log("Word completed: ",searchText);
                   MenuSearch.selectWord(searchText);
-//                mainListView.positionViewAtBeginning()
+//                searchResultsList.positionViewAtBeginning();
 //                mainListView.clear()
 //                tweetsModel.from = ""
 //                tweetsModel.phrase = searchText
@@ -200,6 +200,7 @@ ApplicationWindow {
             anchors.fill: parent;
             onClicked:
             {
+                console.log("in shademouse");
                 stackView.focus = true;
                 enabled = false
             }
@@ -215,7 +216,7 @@ ApplicationWindow {
 
         states: State {
             name: "PopupMenuOpen"
-            when: !stackView.activeFocus
+            when: !(stackView.activeFocus || wordSearch.activeFocus)
             PropertyChanges { target: popupMenu; x:mainwindow.width-popupMenu.width ; open: true }
             PropertyChanges { target: shade; opacity: 0.25 }
             PropertyChanges { target: shademouse; enabled: true }
