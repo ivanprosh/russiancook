@@ -103,27 +103,6 @@ Item {
             Rectangle { color: "#33c4b891"; width: parent.width; height: 1 }
             Rectangle { color: Qt.darker("#33c4b891"); width: parent.width; height: 1; anchors.bottom: parent.bottom }
 
-//            Image {
-//                id: placeHolder
-//                source: "resources/anonymous.png"
-//                x: 10; y: 9
-//                visible: avatar.status != Image.Ready
-//            }
-
-//            Image {
-//                id: avatar
-//                source: model.userImage
-//                anchors.fill: placeHolder
-//                MouseArea {
-//                    id: mouseArea
-//                    anchors.fill: parent
-//                    onClicked: {
-//                        flipBar.flipUp()
-//                        flipBar.flipped = true
-//                    }
-//                }
-//            }
-
             MouseArea {
                 id: mouseArea
                 anchors.fill: parent

@@ -31,5 +31,6 @@
         <file>content/SearchDelegate.qml</file>
         <file>content/FTSListDelegate.qml</file>
         <file>content/FlipBar.qml</file>
+        <file>content/PopupEffect.qml</file>
     </qresource>
 </RCC>

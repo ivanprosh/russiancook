@@ -49,6 +49,7 @@ ApplicationWindow {
     visible: true
     //anchors { top: parent.top; bottom: parent.bottom; left:parent.left; right:parent.right  }
     property int dpi: Screen.pixelDensity * 25.4
+    property int rightmarginborder: 69
 
     width: dp(720)
     height: if(Qt.platform.os == "windows") dp(640)
@@ -67,7 +68,7 @@ ApplicationWindow {
         id: mainborder
         verticalTileMode: BorderImage.Round
         horizontalTileMode : BorderImage.Round
-        border.left: 67; border.top: 1; border.right: 69; border.bottom: 190
+        border.left: 67; border.top: 1; border.right: mainwindow.rightmarginborder; border.bottom: 190
         anchors { top: parent.top; bottom: parent.bottom; left:parent.left; right:parent.right  }
         source: "../images/mushrooms.png"
        // z:2
@@ -77,7 +78,7 @@ ApplicationWindow {
         id: maintoolbar
         verticalTileMode: BorderImage.Round
         horizontalTileMode : BorderImage.Round
-        border {left: 67; top: 100; right: 69; bottom: 10}
+        border {left: 67; top: 100; right: mainwindow.rightmarginborder; bottom: 10}
         source: "../images/toolbar.png"
         width: parent.width
         height: 150
@@ -182,6 +183,7 @@ ApplicationWindow {
                 anchors.margins: -10
                 onClicked: {
                      popupMenu.activeFocus ? (stackView.focus = true) : (popupMenu.focus = true)
+                     //slide.open = !slide.open
                 }
                 enabled: !maintoolbar.searchpage
             }
@@ -208,7 +210,14 @@ ApplicationWindow {
         z:10
     }
 
-    MyPopupMenu { id: popupMenu; x:mainwindow.width; height: 260; width: parent.width/2; z:11}
+    MyPopupMenu {
+        id: popupMenu;
+        anchors {right:parent.right; top:parent.top}
+        anchors.rightMargin: mainwindow.rightmarginborder;
+        height: 0;
+        width: parent.width/2;
+        z:11
+    }
 
     Rectangle{
         anchors.fill: parent
@@ -216,8 +225,9 @@ ApplicationWindow {
 
         states: State {
             name: "PopupMenuOpen"
-            when: !(stackView.activeFocus || wordSearch.activeFocus)
-            PropertyChanges { target: popupMenu; x:mainwindow.width-popupMenu.width ; open: true }
+            //when: !(stackView.activeFocus || wordSearch.activeFocus)
+            when: popupMenu.activeFocus
+            PropertyChanges { target: popupMenu; open: true; height: 260 }
             PropertyChanges { target: shade; opacity: 0.25 }
             PropertyChanges { target: shademouse; enabled: true }
         }

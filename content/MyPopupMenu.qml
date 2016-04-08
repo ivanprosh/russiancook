@@ -46,6 +46,9 @@ FocusScope {
 
     property bool open: false
 
+//    Behavior on height {
+//        NumberAnimation { duration: 1000 }
+//    }
 //    Item {
 //        anchors.fill: parent
 
@@ -66,7 +69,7 @@ FocusScope {
         }
 
         BorderImage {
-               // id: maintoolbar
+                id: popupview
                 verticalTileMode: BorderImage.Round
                 horizontalTileMode : BorderImage.Round
                 border {left: 15; top: 0; right: 0; bottom: 10}
@@ -93,6 +96,15 @@ FocusScope {
 
                 }
             }
+        }
+        PopupEffect {
+            id: slide
+            anchors.fill: parent
+            effectImage: popupview
+            open: container.open
+            height: container.height
+            onHeightChanged: console.log("height changed!", height)
+            onOpenChanged: open ? console.log("Popup start, height:",height) : console.log("Popup stop,height:",height)
         }
 
 }

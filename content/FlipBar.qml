@@ -117,6 +117,7 @@ Item {
             }
         }
 
+        onDeltaChanged: console.log("delta is:", delta)
         property variant sourceA: source1
         property variant sourceB: source1
         property variant source1: ShaderEffectSource {
@@ -137,13 +138,13 @@ Item {
             varying highp vec2 qt_TexCoord0;
             void main() {
                 highp vec4 tex = vec4(qt_TexCoord0.x, qt_TexCoord0.y * 2.0, qt_TexCoord0.x, (qt_TexCoord0.y-0.5) * 2.0);
-                highp float shade = clamp(delta*2.0, 0.5, 1.0);
+                highp float shade = clamp(delta*2.0, 0.35, 1.0);
                 highp vec4 col;
                 if (qt_TexCoord0.y < 0.5) {
                     col = texture2D(sourceA, tex.xy) * (shade);
                 } else {
                     col = texture2D(sourceB, tex.zw) * (1.5 - shade);
-                    col.w = 1.0;
+                    col.w = 0.8;
                 }
                 gl_FragColor = col * qt_Opacity;
             }
