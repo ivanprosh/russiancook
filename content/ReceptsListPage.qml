@@ -61,8 +61,7 @@ ScrollView {
               listRecepts.currentIndex = index;
               MenuRec.LevelDown(maintoolbar.text);
               maintoolbar.text = listRecepts.currentItem.receptName;
-              MenuRec.SingleRecQuery(index);
-              stackView.push(Qt.resolvedUrl("SingleReceptPage.qml"));
+              mainwindow.showrecept(receptName)
               }
         }
     }

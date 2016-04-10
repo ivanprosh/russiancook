@@ -20,7 +20,7 @@ public:
 signals:
     //void descriptionChanged(QString);
 public slots:
-    void curRecNameChanged(QString curRecName,QString MainProd,QString Racion);
+    void curRecNameChanged(QString curRecName);
     QString descValue() const  { return description; }
     QString comValue() const  { return comment; }
 };

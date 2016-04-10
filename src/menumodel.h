@@ -19,12 +19,12 @@ public:
     explicit MenuModel(QStringList headers,QString initquery, QObject *parent = 0);
 
 signals:
-    void curRecNameChanged(QString curRecName,QString MainProd,QString Racion);
+    void curRecNameChanged(QString curRecName);
 
 public slots:
     void CatForCurTypeQuery(int index);
     void RecForCurCatQuery(int index);
-    void SingleRecQuery(int index);
+    //void SingleRecQuery(QString name);
     QString curHandleName() const { return HandleName;}
     void LevelUp()
     {

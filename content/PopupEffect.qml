@@ -42,57 +42,17 @@ import QtQuick 2.5
 
 ShaderEffect {
 
-//    function flipUp(start) {
-//        effect.visible = true;
-//        effect.sourceA = effect.source1
-//        effect.sourceB = effect.source2
-//        if (start == undefined)
-//            start = 1.0;
-//        deltaAnim.from = start;
-//        deltaAnim.to = 0.0
-//        dAnim.start();
-//        frontShown = false;
-//    }
-
-//    function flipDown(start) {
-//        effect.visible = true;
-//        effect.sourceA = effect.source1
-//        effect.sourceB = effect.source2
-//        if (start == undefined)
-//            start = 0.0;
-//        deltaAnim.from = start;
-//        deltaAnim.to = 1.0
-//        dAnim.start();
-//        frontShown = true;
-//    }
-
-
         id: effect
         anchors.fill: parent
 
         mesh: GridMesh { resolution: Qt.size(40,40) }
 
         property Item effectImage: Item {}
-        property real leftheight: height
-        property real rightheight: leftheight
+
         property real amplitude: 0.05
         property bool open: false
         property variant source: effectSource
 
-        Behavior on leftheight {
-            SpringAnimation {
-                easing.type: Easing.OutElastic;
-                velocity: 250; mass: 1.5;
-                spring: 0.5; damping: 0.05
-            }
-        }
-
-        Behavior on rightheight {
-            NumberAnimation { duration: 1000 }
-        }
-        Behavior on height {
-            NumberAnimation { duration: 1000 }
-        }
 
         ShaderEffectSource {
             id: effectSource
@@ -107,33 +67,6 @@ ShaderEffect {
 //            fillMode: Image.Tile
 //        }
 
-//        vertexShader: "
-//                attribute highp vec4 qt_Vertex;
-//                attribute highp vec2 qt_MultiTexCoord0;
-//                uniform highp mat4 qt_Matrix;
-//                varying highp vec2 qt_TexCoord0;
-//                varying lowp float shade;
-
-//                uniform highp float leftheight;
-//                uniform highp float rightheight;
-//                uniform highp float width;
-//                uniform highp float height;
-//                uniform highp float amplitude;
-
-//                void main() {
-//                    qt_TexCoord0 = qt_MultiTexCoord0;
-
-//                    highp vec4 shift = vec4(0.0, 0.0, 0.0, 0.0);
-//                    highp float swing = (leftheight - rightheight) * (qt_Vertex.y / height);
-//                    shift.x = qt_Vertex.x * (width - leftheight + swing) / width;
-
-//                    shade = sin(21.9911486 * qt_Vertex.x / width);
-//                    shift.y = amplitude * (height - leftheight + swing) * shade;
-
-//                    gl_Position = qt_Matrix * (qt_Vertex - shift);
-
-//                    shade = 0.2 * (2.0 - shade ) * ((width - leftheight + swing) / width);
-//                }"
         vertexShader: "
                 attribute highp vec4 qt_Vertex;
                 attribute highp vec2 qt_MultiTexCoord0;
@@ -141,8 +74,6 @@ ShaderEffect {
                 varying highp vec2 qt_TexCoord0;
                 varying lowp float shade;
 
-                uniform highp float leftheight;
-                uniform highp float rightheight;
                 uniform highp float width;
                 uniform highp float height;
                 uniform highp float amplitude;
@@ -151,14 +82,14 @@ ShaderEffect {
                     qt_TexCoord0 = qt_MultiTexCoord0;
 
                     highp vec4 shift = vec4(0.0, 0.0, 0.0, 0.0);
-                    highp float swing = (leftheight - rightheight) * (qt_Vertex.y / height);
+                    highp float swing = (qt_Vertex.y / height);
 
                     shade = sin(21.9911486 * qt_Vertex.y / height);
-                    shift.y = (height - leftheight + swing);
+                    shift.y = amplitude * (height + swing) * shade;
 
-                    gl_Position = qt_Matrix * (qt_Vertex - shift);
+                    gl_Position = qt_Matrix * (qt_Vertex);
 
-                    shade = 0.2 * (2.0 - shade ) * ((width - leftheight + swing) / width);
+                    shade = 0.05 * (2.0 - shade );
                 }"
 
         fragmentShader: "

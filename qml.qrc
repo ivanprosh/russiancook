@@ -4,8 +4,6 @@
         <file>images/button_pressed.png</file>
         <file>images/navigation_next_item.png</file>
         <file>images/navigation_previous_item.png</file>
-        <file>images/tab_selected.png</file>
-        <file>images/tabs_standard.png</file>
         <file>images/textinput.png</file>
         <file>images/toolbar.png</file>
         <file>content/AndroidDelegate.qml</file>
@@ -21,7 +19,6 @@
         <file>content/MyPopupMenu.qml</file>
         <file>content/PopupMenuDelegate.qml</file>
         <file>images/search.svg</file>
-        <file>images/menutexture.png</file>
         <file>images/shopping_basket.svg</file>
         <file>content/SearchPage.qml</file>
         <file>content/LineInput.qml</file>
@@ -32,5 +29,6 @@
         <file>content/FTSListDelegate.qml</file>
         <file>content/FlipBar.qml</file>
         <file>content/PopupEffect.qml</file>
+        <file>images/popupback.png</file>
     </qresource>
 </RCC>

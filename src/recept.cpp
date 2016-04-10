@@ -3,11 +3,11 @@
 Recept::Recept(QObject *parent) : QObject(parent)
 {}
 
-void Recept::curRecNameChanged(QString curRecName,QString MainProd,QString Racion)
+void Recept::curRecNameChanged(QString curRecName)
 {
     QSqlQuery query;
     QSqlRecord rec;
-    //qDebug() << "Current Rec is: " << curRecName;
+    qDebug() << "Current Rec is: " << curRecName;
     QString curID = "SELECT * FROM Recept "
                     "WHERE Name ='%1'";
     query.exec(curID.arg(curRecName));

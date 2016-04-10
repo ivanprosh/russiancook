@@ -51,14 +51,18 @@ void SearchModel::selectWord(QString Word)
     this->clear();
     qDebug() << "In slot selectWord" << Word;
     //QSqlQuery SQLq;
-    QString query =   " SELECT snippet(ftstest10,'<b>', '</b>','...',0) AS Name,			"
+    QString query =   " SELECT offsets(ftstest10) As Relevance,  "
+                      "        snippet(ftstest10,'','','...',0) AS Name,		  "
                       "        snippet(ftstest10,'<b>', '</b>','...',1) AS MainProd,      "
-                      " 	   snippet(ftstest10,'<b>', '</b>','...',6) AS Compos,          "
+                      " 	   snippet(ftstest10,'<b>', '</b>','...',6,30) AS Compos,     "
                       "        snippet(ftstest10,'<b>', '</b>','...',4) AS Type,          "
                       "        snippet(ftstest10,'<b>', '</b>','...',5) AS SubType,       "
                       "        snippet(ftstest10,'<b>', '</b>','...',2) AS Racion,        "
-                      "        snippet(ftstest10,'<b>', '</b>','...',3) AS Description    "
-                      " FROM ftstest10 WHERE ftstest10 MATCH '%1';                        ";
+                      "        snippet(ftstest10,'<b>', '</b>','...',3,30) AS Description    "
+                      " FROM ftstest10 WHERE ftstest10 MATCH '%1'                        "
+                      " ORDER BY Relevance;                                               ";
+
+
     query = query.arg(Word);
     //if(SQLq.exec())
     this->setQuery(query);

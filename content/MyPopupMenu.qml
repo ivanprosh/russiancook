@@ -43,69 +43,73 @@ import QtQuick.Controls 1.4
 
 FocusScope {
     id: container
+    //enabled: activeFocus
 
-    property bool open: false
+    //property bool open: false
+    property alias source: popupview.source
 
-//    Behavior on height {
-//        NumberAnimation { duration: 1000 }
-//    }
-//    Item {
-//        anchors.fill: parent
+    Behavior on height {
+        NumberAnimation{
+            easing.amplitude: 0.8
+            easing.period: 0.5
+            duration: 500
+            easing.type: Easing.OutElastic
+        }
+    }
 
-        ListModel {
-            id: popupMenuModel
+    ListModel {
+        id: popupMenuModel
 
-            ListElement {
-                title: "Поиск"
-                sourceimage: "../images/search.svg"
-                page: "SearchPage.qml"
-            }
-            ListElement {
-                title: "Корзина"
-                sourceimage: "../images/shopping_basket.svg"
-                page: ""
-            }
-
+        ListElement {
+            title: "Поиск"
+            sourceimage: "../images/search.svg"
+            page: "SearchPage.qml"
+        }
+        ListElement {
+            title: "Корзина"
+            sourceimage: "../images/shopping_basket.svg"
+            page: ""
         }
 
-        BorderImage {
-                id: popupview
-                verticalTileMode: BorderImage.Round
-                horizontalTileMode : BorderImage.Round
-                border {left: 15; top: 0; right: 0; bottom: 10}
-                source: "../images/menutexture.png"
-                anchors.fill: parent
+    }
 
-            ListView {
-                id: listpopup
-                focus: true
-                model: popupMenuModel
-                anchors.fill: parent
+    BorderImage {
+        id: popupview
+        visible: container.activeFocus
+        verticalTileMode: BorderImage.Round
+        horizontalTileMode : BorderImage.Round
+        border {left: 15; top: 0; right: 0; bottom: 20}
+        anchors.fill: parent
 
-                delegate: PopupMenuDelegate {
-                    text: title
-                    image: sourceimage
-                    onClicked:{
-                        stackView.push(Qt.resolvedUrl(page));
-                        stackView.levelpopup++;
-                        stackView.focus = true;
-                        console.log("curr index",listpopup.currentIndex)
-                       // if(listpopup.currentIndex == 0) maintoolbar.searchpage = true;
-                        maintoolbar.text = title;
-                    }
-
-                }
-            }
-        }
-        PopupEffect {
-            id: slide
+        ListView {
+            id: listpopup
+            focus: container.activeFocus
+            model: popupMenuModel
             anchors.fill: parent
-            effectImage: popupview
-            open: container.open
-            height: container.height
-            onHeightChanged: console.log("height changed!", height)
-            onOpenChanged: open ? console.log("Popup start, height:",height) : console.log("Popup stop,height:",height)
+
+            delegate: PopupMenuDelegate {
+                text: title
+                image: sourceimage
+                onClicked:{
+                    console.log("Debug popup, visible",listpopup.visible," height", listpopup.height)
+                    stackView.push(Qt.resolvedUrl(page));
+                    stackView.levelpopup++;
+                    stackView.focus = true;
+                    console.log("curr index",listpopup.currentIndex)
+                    // if(listpopup.currentIndex == 0) maintoolbar.searchpage = true;
+                    maintoolbar.text = title;
+                }
+
+            }
         }
+    }
+    PopupEffect {
+        id: slide
+        anchors.fill: parent
+        effectImage: popupview
+        open: container.activeFocus
+        height: container.height
+    }
 
 }
 

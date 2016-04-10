@@ -50,7 +50,7 @@ Item {
     property real startRotation: 1
 
     property alias receptName: name.text
-    property alias receptMainProd: mainprod.text
+//    property alias receptMainProd: mainprod.text
     property alias receptRacion: racion.text
     property alias receptCompos: compos.text
     property alias receptDescription: description.text
@@ -59,6 +59,8 @@ Item {
 //    property string fontItemsize: mainwindow.dp(17)
 //    property string fontHeadersize: mainwindow.dp(14)
     property color mainTextColor: Qt.darker("#706343")
+
+    signal clicked
 
     Component.onCompleted: {
        //NumberAnimation { property: "hm"; from: 0; to: 1.0; duration: 300; easing.type: Easing.Linear }
@@ -89,7 +91,7 @@ Item {
 
         anchors.bottom: parent.bottom
         width: container.ListView.view ? container.ListView.view.width : 0
-        height: front.visible ? 72 : Math.max(72, description.height + 10)
+        height: front.visible ? 72 : backrect.height
 
         Behavior on height{
             NumberAnimation  { duration: 500; easing.type: Easing.InOutQuad }
@@ -127,16 +129,16 @@ Item {
                         //linkColor: "white"
                     }
 
-                    Text {
-                        id: mainprod
-                        text: modeldata
-                        //anchors { left: avatar.right; leftMargin: 10; top: name.bottom; topMargin: 0; right: parent.right; rightMargin: 10 }
-                        wrapMode: Text.WordWrap
-                        font.pixelSize: 12
-                        font.bold: false
-                        color: "black"
-                        //linkColor: "white"
-                    }
+//                    Text {
+//                        id: mainprod
+//                        text: modeldata
+//                        //anchors { left: avatar.right; leftMargin: 10; top: name.bottom; topMargin: 0; right: parent.right; rightMargin: 10 }
+//                        wrapMode: Text.WordWrap
+//                        font.pixelSize: 12
+//                        font.bold: false
+//                        color: "black"
+//                        //linkColor: "white"
+//                    }
                     Text {
                         id: compos
                         text: modeldata
@@ -162,41 +164,60 @@ Item {
         }
 
         back: Rectangle {
+            id: backrect
             width: container.ListView.view ? container.ListView.view.width : 0
-            height: Math.max(72, description.height + 10)
-            color: "#9b953d"
+            height: Math.max(72, description.height + link.height + 10)
+            color: Qt.darker("#9b953d")
 
-            Rectangle { color: "#ff6633"; width: parent.width; height: 1 }
-            Rectangle { color: "#80341a"; width: parent.width; height: 1; anchors.bottom: parent.bottom }
-
-            MouseArea {
+            //Rectangle { color: "#ff6633"; width: parent.width; height: 1 }
+            //Rectangle { color: "#80341a"; width: parent.width; height: 1; anchors.bottom: parent.bottom }
+            RowLayout {
                 anchors.fill: parent
-                onClicked: {
-                    flipBar.flipDown()
-                    flipBar.flipped = false
+                anchors.margins: 3
+                spacing: 5
+            Column {
+                    Layout.fillWidth: true
+                    TextArea {
+                        id: description
+                        width: parent.width
+                        readOnly: true
+                        backgroundVisible: false
+                        frameVisible: false
+                        font.pixelSize: fontDescrsize;
+                        horizontalAlignment : Text.AlignJustify
+                        text: modeldata
+                        textFormat : TextEdit.RichText
+                        height: contentHeight
+                        MouseArea {
+                            anchors.fill: parent
+                            //anchors.margins: {bottom: link.height}
+                            //z:10
+                            onClicked: {
+                                console.log("clicked in FTS, MouseHeight",height ," width",width , "description", description.height," w ", description.width)
+                                flipBar.flipDown()
+                                flipBar.flipped = false
+                            }
+                        }
+                    }
+
+                    Text {
+                        id: link
+                        text: "<br>" + "Подробнее" + "<br>"
+                        //x: 10; anchors { top: description.bottom; topMargin: 0 }
+                        wrapMode: Text.WordWrap
+                        font.pixelSize: 12
+                        font.bold: false
+                        color: "#ffc2ad"
+                        linkColor: "white"
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                container.clicked()
+                                console.log("Подробнее")
+                                }
+                        }
+                    }
                 }
-            }
-
-            TextArea {
-                    id: description
-                    readOnly: true
-                    backgroundVisible: false
-                    frameVisible: false
-                    font.pixelSize: fontDescrsize;
-                    horizontalAlignment : Text.AlignJustify
-                    text: modeldata
-                    height: contentHeight
-
-                }
-
-            Text {
-                //text: model.source + "<br>" + Helper.formatDate(model.published) + "<br>" + model.uri
-                x: 10; anchors { top: description.bottom; topMargin: 0 }
-                wrapMode: Text.WordWrap
-                font.pixelSize: 12
-                font.bold: false
-                color: "#ffc2ad"
-                linkColor: "white"
             }
         }
     }

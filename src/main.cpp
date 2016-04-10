@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     Recept curRecept;
 
     //Подключаем сигналы между моделью и экземпляром рецепта
-    QObject::connect(MenuRec,SIGNAL(curRecNameChanged(QString,QString,QString)),&curRecept,SLOT(curRecNameChanged(QString,QString,QString)));
+    QObject::connect(MenuRec,SIGNAL(curRecNameChanged(QString)),&curRecept,SLOT(curRecNameChanged(QString)));
 
     //qmlRegisterType<CurNameForQuery>("com.mymodels.CurNameForQuery",1,0,"CurNameForQuery");
     QQmlApplicationEngine engine;

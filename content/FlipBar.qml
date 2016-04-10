@@ -117,7 +117,7 @@ Item {
             }
         }
 
-        onDeltaChanged: console.log("delta is:", delta)
+        //onDeltaChanged: console.log("delta is:", delta)
         property variant sourceA: source1
         property variant sourceB: source1
         property variant source1: ShaderEffectSource {

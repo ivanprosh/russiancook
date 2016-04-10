@@ -35,14 +35,14 @@ void MenuModel::RecForCurCatQuery(int index) //clicked item in menu list types
     MycurQuery = MycurQuery.arg(userdata(index,MenuModel::SubType));
     this->setQuery(MycurQuery);
 }
-void MenuModel::SingleRecQuery(int index)
-{
-    QString Racion = userdata(index,MenuModel::RecRacion);
-    QString MainProd = userdata(index,MenuModel::RecMainProd);
-    curRecName = userdata(index,MenuModel::RecName);
-    qDebug() << "Имя: " << curRecName << "Racion: " << Racion << "MainProd: " << MainProd;
-    emit curRecNameChanged(curRecName,MainProd,Racion);
-}
+//void MenuModel::SingleRecQuery(QString name)
+//{
+//    //QString Racion = userdata(index,MenuModel::RecRacion);
+//    //QString MainProd = userdata(index,MenuModel::RecMainProd);
+//    //curRecName = userdata(index,MenuModel::RecName);
+//    qDebug() << "Имя: " << curRecName;
+//    emit curRecNameChanged(curRecName);
+//}
 
 
 

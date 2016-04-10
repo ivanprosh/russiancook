@@ -57,11 +57,17 @@ ApplicationWindow {
 
     function dp(x){
         if(dpi < 120) {
-            console.log("In dp(x),x:",x ,"dpi is", dpi ," x*(dpi/160) is", (x*(dpi/160)));
+            //console.log("In dp(x),x:",x ,"dpi is", dpi ," x*(dpi/160) is", (x*(dpi/160)));
             return x; // Для обычного монитора компьютера
         } else {
             return x*(dpi/160);
         }
+    }
+
+    function showrecept(name){
+        console.log("in showrecept, name is",name)
+        MenuRec.curRecNameChanged(name);
+        stackView.push(Qt.resolvedUrl("SingleReceptPage.qml"));
     }
 
     BorderImage {
@@ -84,6 +90,7 @@ ApplicationWindow {
         height: 150
         property alias text: handletext.text
         property bool searchpage: stackView.currentItem.objectName == "search"
+
 
         Rectangle {
             id: backButton
@@ -182,8 +189,10 @@ ApplicationWindow {
                 anchors.fill: parent
                 anchors.margins: -10
                 onClicked: {
-                     popupMenu.activeFocus ? (stackView.focus = true) : (popupMenu.focus = true)
-                     //slide.open = !slide.open
+                     if(popupMenu.activeFocus) {
+                         stackView.focus = true
+                        // popupMenu.open = false
+                     } else popupMenu.focus = true
                 }
                 enabled: !maintoolbar.searchpage
             }
@@ -214,7 +223,7 @@ ApplicationWindow {
         id: popupMenu;
         anchors {right:parent.right; top:parent.top}
         anchors.rightMargin: mainwindow.rightmarginborder;
-        height: 0;
+        source: "../images/popupback.png"
         width: parent.width/2;
         z:11
     }
@@ -227,7 +236,7 @@ ApplicationWindow {
             name: "PopupMenuOpen"
             //when: !(stackView.activeFocus || wordSearch.activeFocus)
             when: popupMenu.activeFocus
-            PropertyChanges { target: popupMenu; open: true; height: 260 }
+            PropertyChanges { target: popupMenu; height: 260 }
             PropertyChanges { target: shade; opacity: 0.25 }
             PropertyChanges { target: shademouse; enabled: true }
         }
@@ -259,7 +268,7 @@ ApplicationWindow {
         anchors.fill: parent
         anchors.leftMargin: mainborder.border.left
         anchors.rightMargin: mainborder.border.right
-        anchors.bottomMargin: mainborder.border.bottom
+        anchors.bottomMargin: 120
 
         property int levelpopup: 0;
         // Implements back key navigation
