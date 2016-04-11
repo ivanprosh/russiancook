@@ -2,11 +2,6 @@
 
 SearchModel::SearchModel(QStringList headers,QString initquery, QObject *parent):Model(headers,initquery,parent)
 {
-}
-
-void SearchModel::initQuery()
-{
-
     QSqlQuery SQLquery;
     //Сначала создаем виртуальную таблицу и добавляем в нее нужные поля для поиска
     QString Createquery = " CREATE VIRTUAL TABLE IF NOT EXISTS ftstest10 USING fts4 		"
@@ -44,6 +39,11 @@ void SearchModel::initQuery()
     }
     else
         qDebug() << "FTS not created!" << SQLquery.lastError();
+}
+
+void SearchModel::initQuery()
+{
+    this->clear();
 }
 
 void SearchModel::selectWord(QString Word)

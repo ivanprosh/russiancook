@@ -30,15 +30,17 @@ public slots:
     {
         this->setQuery(MyqueryStack.pop());
         qDebug()<<"Size of stack: "<<MyqueryStack.size();
-        HandleName = HandleNameStack.pop();
+        HandleName = popMenuTitleName();
         qDebug()<<"curHandleName: " << HandleName;
     }
     void LevelDown(QString HandleName)
     {
         MyqueryStack.push(this->query());
-        HandleNameStack.push(HandleName);
+        pushMenuTitleName(HandleName);
         qDebug()<<"Size of stack: "<<MyqueryStack.size() << " " << HandleNameStack.size();
     }
+    QString popMenuTitleName(){return HandleNameStack.pop();}
+    void pushMenuTitleName(QString name){HandleNameStack.push(name);}
     int StackQuerySize() {return MyqueryStack.size();}
 };
 

@@ -59,8 +59,6 @@ ScrollView {
             receptRacion: Racion
             onClicked: {
               listRecepts.currentIndex = index;
-              MenuRec.LevelDown(maintoolbar.text);
-              maintoolbar.text = listRecepts.currentItem.receptName;
               mainwindow.showrecept(receptName)
               }
         }

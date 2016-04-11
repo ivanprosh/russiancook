@@ -94,6 +94,7 @@ FocusScope {
                     console.log("Debug popup, visible",listpopup.visible," height", listpopup.height)
                     stackView.push(Qt.resolvedUrl(page));
                     stackView.levelpopup++;
+                    MenuRec.pushMenuTitleName(maintoolbar.text);
                     stackView.focus = true;
                     console.log("curr index",listpopup.currentIndex)
                     // if(listpopup.currentIndex == 0) maintoolbar.searchpage = true;

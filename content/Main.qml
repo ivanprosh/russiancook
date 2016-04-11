@@ -67,7 +67,9 @@ ApplicationWindow {
     function showrecept(name){
         console.log("in showrecept, name is",name)
         MenuRec.curRecNameChanged(name);
+        MenuRec.LevelDown(maintoolbar.text);
         stackView.push(Qt.resolvedUrl("SingleReceptPage.qml"));
+        maintoolbar.text = name;
     }
 
     BorderImage {
@@ -115,7 +117,8 @@ ApplicationWindow {
                 anchors.fill: parent
                 anchors.margins: -10
                 onClicked: {
-                    if(!popupMenu.activeFocus){
+                    if(!popupMenu.activeFocus && stackView.depth > 1){
+                        console.log("Area width:",width)
                         stackView.pop();
                         if(stackView.levelpopup == 0) {
                             MenuRec.LevelUp();
@@ -123,7 +126,7 @@ ApplicationWindow {
                             console.log("Not popup", stackView.levelpopup);
                         } else {
                             stackView.levelpopup--;
-                            if (stackView.levelpopup == 0) maintoolbar.text = MenuRec.curHandleName();
+                            maintoolbar.text = MenuRec.popMenuTitleName(maintoolbar.text);
                             console.log("Level popup is",stackView.levelpopup);
                         }
                     }
