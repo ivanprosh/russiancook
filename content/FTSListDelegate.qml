@@ -56,7 +56,7 @@ Item {
     property alias receptDescription: description.text
 
     property string fontDescrsize: mainwindow.dp(17)
-//    property string fontItemsize: mainwindow.dp(17)
+    property string fontRecsize: mainwindow.dp(19)
 //    property string fontHeadersize: mainwindow.dp(14)
     property color mainTextColor: Qt.darker("#706343")
 
@@ -91,7 +91,7 @@ Item {
 
         anchors.bottom: parent.bottom
         width: container.ListView.view ? container.ListView.view.width : 0
-        height: front.visible ? 72 : backrect.height
+        height: front.visible ? mainwindow.dp(72) : backrect.height
 
         Behavior on height{
             NumberAnimation  { duration: 500; easing.type: Easing.InOutQuad }
@@ -99,7 +99,7 @@ Item {
 
         front: Rectangle {
             width: container.ListView.view ? container.ListView.view.width : 0
-            height: 72
+            height: parent.height
             color: "#CCc4b891"
 
             Rectangle { color: "#33c4b891"; width: parent.width; height: 1 }
@@ -123,7 +123,7 @@ Item {
                         id: name
                         text: modeldata
                         //anchors { left: parent.left; leftMargin: 10; top: parent.top; topMargin: -3 }
-                        font.pixelSize: 12
+                        font.pixelSize: fontRecsize
                         font.bold: true
                         color: mainTextColor
                         //linkColor: "white"
@@ -144,7 +144,7 @@ Item {
                         text: modeldata
                         //anchors { left: avatar.right; leftMargin: 10; top: name.bottom; topMargin: 0; right: parent.right; rightMargin: 10 }
                         wrapMode: Text.WordWrap
-                        font.pixelSize: 10
+                        font.pixelSize: fontDescrsize
                         font.bold: false
                         //color: Qt.lighter(mainTextColor)
                         //linkColor: "white"
@@ -154,7 +154,7 @@ Item {
                         text: modeldata
                         //anchors { left: avatar.right; leftMargin: 10; top: name.bottom; topMargin: 0; right: parent.right; rightMargin: 10 }
                         //wrapMode: Text.WordWrap
-                        font.pixelSize: 10
+                        font.pixelSize: fontDescrsize
                         font.bold: false
                         color: Qt.lighter(mainTextColor)
                         //linkColor: "white"
@@ -166,7 +166,7 @@ Item {
         back: Rectangle {
             id: backrect
             width: container.ListView.view ? container.ListView.view.width : 0
-            height: Math.max(72, description.height + link.height + 10)
+            height: Math.max(mainwindow.dp(72), description.height + link.height + 10)
             color: Qt.darker("#9b953d")
 
             //Rectangle { color: "#ff6633"; width: parent.width; height: 1 }
@@ -205,7 +205,7 @@ Item {
                         text: "<br>" + "Подробнее" + "<br>"
                         //x: 10; anchors { top: description.bottom; topMargin: 0 }
                         wrapMode: Text.WordWrap
-                        font.pixelSize: 12
+                        font.pixelSize: mainwindow.dp(12)
                         font.bold: false
                         color: "#ffc2ad"
                         linkColor: "white"

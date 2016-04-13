@@ -51,9 +51,8 @@ ApplicationWindow {
     property int dpi: Screen.pixelDensity * 25.4
     property int rightmarginborder: 69
 
-    width: dp(720)
-    height: if(Qt.platform.os == "windows") dp(640)
-            else dp(1280)
+    width: Qt.platform.os == "windows" ? dp(320) : Screen.width
+    height: Qt.platform.os == "windows" ? dp(640) : Screen.height
 
     function dp(x){
         if(dpi < 120) {
@@ -77,7 +76,8 @@ ApplicationWindow {
         verticalTileMode: BorderImage.Round
         horizontalTileMode : BorderImage.Round
         border.left: 67; border.top: 1; border.right: mainwindow.rightmarginborder; border.bottom: 190
-        anchors { top: parent.top; bottom: parent.bottom; left:parent.left; right:parent.right  }
+        //anchors { top: parent.top; bottom: parent.bottom; left:parent.left; right:parent.right  }
+        anchors.fill: parent
         source: "../images/mushrooms.png"
        // z:2
     }
