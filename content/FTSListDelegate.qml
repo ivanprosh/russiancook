@@ -91,7 +91,7 @@ Item {
 
         anchors.bottom: parent.bottom
         width: container.ListView.view ? container.ListView.view.width : 0
-        height: front.visible ? mainwindow.dp(72) : backrect.height
+        height: front.visible ? mainwindow.dp(80) : backrect.height
 
         Behavior on height{
             NumberAnimation  { duration: 500; easing.type: Easing.InOutQuad }

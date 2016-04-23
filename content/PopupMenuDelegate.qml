@@ -43,7 +43,7 @@ import QtQuick 2.2
 Item {
     id: root
     width: parent.width
-    height: 50
+    height: 75
 
     property alias text: textitem.text
     property alias image: imageitem.source
@@ -58,7 +58,7 @@ Item {
     Text {
         id: textitem
         color: Qt.darker("#706343")
-        font.pixelSize: 24
+        font.pixelSize: 32
         text: modelData
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: imageitem.right

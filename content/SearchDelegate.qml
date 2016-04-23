@@ -37,7 +37,9 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.0
+import QtQuick 2.2
+import QtQuick.Dialogs 1.2
+import QtQuick.Controls 1.2
 
 FocusScope {
     id: searchdelegate
@@ -48,9 +50,6 @@ FocusScope {
     property bool opened: false
     signal ok
     signal hasOpened
-
-    height: 60
-    width: parent.width
 
     function open() {
         searchdelegate.opened = true
@@ -75,14 +74,14 @@ FocusScope {
         }
     }
 
+    Loader {
+        id:loader
+        anchors.centerIn: parent
+    }
 
     Rectangle {
         anchors.fill: parent
         color: "transparent"
-
-        //Rectangle { color: "#c1c1c1"; width: parent.width; height: 1 }
-        //Rectangle { color: lineInput.activeFocus ? Qt.darker("#CC706343") : Qt.darker("#33706343");
-          //          width: parent.width; height: 1; anchors.bottom: parent.bottom }
 
         LineInput {
             id: lineInput
@@ -94,6 +93,13 @@ FocusScope {
                     Qt.inputMethod.hide()
                 searchdelegate.ok()
             }
+            onOpenext: {
+                console.log("ext!")
+                if (Qt.inputMethod.visible) Qt.inputMethod.hide()
+                loader.source = "ExtensSearchPage.qml"
+                loader.item.open()
+            }
+
         }
     }
 }

@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/button_default.png</file>
-        <file>images/button_pressed.png</file>
         <file>images/navigation_next_item.png</file>
         <file>images/navigation_previous_item.png</file>
         <file>images/textinput.png</file>
@@ -30,5 +28,8 @@
         <file>content/FlipBar.qml</file>
         <file>content/PopupEffect.qml</file>
         <file>images/popupback.png</file>
+        <file>images/mushroom.png</file>
+        <file>content/ExtensSearchPage.qml</file>
+        <file>images/navigation_popup_open.png</file>
     </qresource>
 </RCC>

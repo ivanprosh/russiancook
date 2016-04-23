@@ -48,6 +48,7 @@ FocusScope {
     property alias prefix: prefix.text
 
     signal accepted
+    signal openext
 
     Rectangle {
         anchors.fill: parent
@@ -61,7 +62,7 @@ FocusScope {
             anchors { fill: parent; leftMargin: 14 }
             verticalAlignment: Text.AlignVCenter
             text: "яйцо варить"
-            font.pixelSize: 18
+            font.pixelSize: 24
             color: "gray"
             opacity: input.length ? 0 : 1
         }
@@ -70,7 +71,7 @@ FocusScope {
             id: prefix
             anchors { left: parent.left; leftMargin: 14; verticalCenter: parent.verticalCenter }
             verticalAlignment: Text.AlignVCenter
-            font.pixelSize: 18
+            font.pixelSize: 24
             color: "#707070"
             opacity: !hint.opacity
         }
@@ -80,12 +81,13 @@ FocusScope {
             focus: true
             anchors { left: prefix.right; right: parent.right; top: parent.top; bottom: parent.bottom }
             verticalAlignment: Text.AlignVCenter
-            font.pixelSize: 18
+            font.pixelSize: 24
             color: "black"
             onAccepted: wrapper.accepted()
         }
 
         Image {
+            id: searchicon
             source: "../images/icon-search.png"
             anchors.right: parent.right
             anchors.rightMargin: 12

@@ -51,8 +51,24 @@ ApplicationWindow {
     property int dpi: Screen.pixelDensity * 25.4
     property int rightmarginborder: 69
 
-    width: Qt.platform.os == "windows" ? dp(320) : Screen.width
-    height: Qt.platform.os == "windows" ? dp(640) : Screen.height
+    width: Qt.platform.os == "windows" ? dp(550) : Screen.width
+    height: Qt.platform.os == "windows" ? dp(720) : Screen.height
+
+    function back(){
+        if(!popupMenu.activeFocus && stackView.depth > 1){
+            console.log("Area width:",width)
+            stackView.pop();
+            if(stackView.levelpopup == 0) {
+                MenuRec.LevelUp();
+                maintoolbar.text = MenuRec.curHandleName();
+                console.log("Not popup", stackView.levelpopup);
+            } else {
+                stackView.levelpopup--;
+                maintoolbar.text = MenuRec.popMenuTitleName(maintoolbar.text);
+                console.log("Level popup is",stackView.levelpopup);
+            }
+        }
+    }
 
     function dp(x){
         if(dpi < 120) {
@@ -86,21 +102,31 @@ ApplicationWindow {
         id: maintoolbar
         verticalTileMode: BorderImage.Round
         horizontalTileMode : BorderImage.Round
-        border {left: 67; top: 100; right: mainwindow.rightmarginborder; bottom: 10}
+        border {left: 67; top: 52; right: mainwindow.rightmarginborder; bottom: 22}
         source: "../images/toolbar.png"
         width: parent.width
-        height: 150
+        height: 165
         property alias text: handletext.text
         property bool searchpage: stackView.currentItem.objectName == "search"
 
+        Item{
+            anchors {top: parent.top; left:parent.left}
+            //color: "transparent"
+            anchors.topMargin: parent.border.top
+            anchors.leftMargin: parent.border.left
+           //         right:parent.border.right;
+           //         bottom: parent.border.bottom }
+            height: parent.height -  parent.border.top - parent.border.bottom
+            width: parent.width - parent.border.left - parent.border.right
 
         Rectangle {
             id: backButton
             width: opacity ? 60 : 0
-            anchors.top:parent.top
-            anchors.topMargin: parent.border.top*0.66
+            anchors.verticalCenter: parent.verticalCenter
+            //anchors.top:parent.top
+            //anchors.topMargin: parent.border.top
             anchors.left: parent.left
-            anchors.leftMargin: 20+parent.border.left
+            anchors.leftMargin: 20
             opacity: stackView.depth > 1 ? 1 : 0
 
             antialiasing: true
@@ -117,19 +143,7 @@ ApplicationWindow {
                 anchors.fill: parent
                 anchors.margins: -10
                 onClicked: {
-                    if(!popupMenu.activeFocus && stackView.depth > 1){
-                        console.log("Area width:",width)
-                        stackView.pop();
-                        if(stackView.levelpopup == 0) {
-                            MenuRec.LevelUp();
-                            maintoolbar.text = MenuRec.curHandleName();
-                            console.log("Not popup", stackView.levelpopup);
-                        } else {
-                            stackView.levelpopup--;
-                            maintoolbar.text = MenuRec.popMenuTitleName(maintoolbar.text);
-                            console.log("Level popup is",stackView.levelpopup);
-                        }
-                    }
+                    back();
                 }
             }
         }
@@ -148,16 +162,18 @@ ApplicationWindow {
         SearchDelegate {
             id: wordSearch
             anchors.top:parent.top
-            anchors.topMargin: parent.border.top*0.66
+            //anchors.topMargin: parent.border.top*0.5
             anchors.left: backButton.right
             anchors.right: parent.right
-            anchors.rightMargin: 20+parent.border.right
+            anchors.rightMargin: 20//+parent.border.right
             label: "Search word..."
             placeHolder: "Яйцо варить"
+            height: parent.height
+            width: parent.width
             onHasOpened: {
 //                tagSearch.close()
 //                userSearch.close()
-
+                  console.log("height is:",height)
             }
             onOk: {
                   console.log("Word completed: ",searchText);
@@ -172,20 +188,25 @@ ApplicationWindow {
 
         Rectangle {
             id: popupButton
-            width: 60
+            width: 100
             anchors.top:parent.top
-            anchors.topMargin: parent.border.top*0.66
+            //anchors.topMargin: parent.border.top*0.66
             anchors.right: parent.right
-            anchors.rightMargin: 20+parent.border.right
+            anchors.rightMargin: 20
             //opacity: stackView.depth > 1 ? 1 : 0
             antialiasing: true
-            height: 60
+            height: 80
             radius: 4
-            color: popupmouse.pressed ? Qt.lighter("#55BDB76B") : "transparent"
+            //color: popupmouse.pressed ? Qt.lighter("#55BDB76B") : "transparent"
+            color: "transparent"
             //Behavior on opacity { NumberAnimation{} }
             Image {
+                opacity: 0.85
+                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
-                source: "../images/navigation_popup.png"
+                height: popupmouse.pressed ? parent.height/1.2 : parent.height
+                width: popupmouse.pressed ? parent.width/1.2 : parent.width
+                source: popupMenu.activeFocus ? "../images/navigation_popup_open.png" : "../images/navigation_popup.png"
             }
             MouseArea {
                 id: popupmouse
@@ -200,6 +221,7 @@ ApplicationWindow {
                 enabled: !maintoolbar.searchpage
             }
             visible: !maintoolbar.searchpage
+        }
         }
     }
     Rectangle {
@@ -276,8 +298,10 @@ ApplicationWindow {
         property int levelpopup: 0;
         // Implements back key navigation
         focus: true
-        Keys.onReleased: if (event.key === Qt.Key_Back && stackView.depth > 1) {
-                             stackView.pop();
+        Keys.onReleased: if (event.key === Qt.Key_Back) {
+                             //stackView.pop();
+                             console.log("Back")
+                             back();
                              event.accepted = true;
                             }
 
