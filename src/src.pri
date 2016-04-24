@@ -5,7 +5,8 @@ SOURCES += \
     $$PWD/recept.cpp \
     $$PWD/compositiontable.cpp \
     $$PWD/menumodel.cpp \
-    $$PWD/searchmodel.cpp
+    $$PWD/searchmodel.cpp \
+    $$PWD/sqllistavailval.cpp
     $$PWD/main.cpp
 
 HEADERS += \
@@ -14,4 +15,5 @@ HEADERS += \
     $$PWD/recept.h \
     $$PWD/compositiontable.h \
     $$PWD/menumodel.h \
-    $$PWD/searchmodel.h
+    $$PWD/searchmodel.h \
+    $$PWD/sqllistavailval.h

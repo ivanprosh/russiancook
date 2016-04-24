@@ -5,6 +5,7 @@
 #include "menumodel.h"
 #include "searchmodel.h"
 #include "recept.h"
+#include "sqllistavailval.h"
 
 int main(int argc, char *argv[])
 {
@@ -27,18 +28,19 @@ int main(int argc, char *argv[])
             return -1;
         }
 
-    QStringList MenuModelHeaders,SearchModelHeaders;
+    QStringList MenuModelHeaders,SearchModelHeaders,SqlListAvailValHeaders;
 
     MenuModelHeaders << "Type" << "SubType" << "Description";
     MenuModelHeaders << "Name" << "MainProd" << "Racion" << "Description" << "Comment" ; //Таблица Рецептов
-
     SearchModelHeaders << "Name" << "MainProd" << "Compos" << "Type" << "SubType" << "Racion" << "Description" << "Comment";
-
-    QString initQuery = "SELECT Distinct Type "
-                        "FROM ReceptType ";
-    MenuModel* MenuRec = new MenuModel(MenuModelHeaders,initQuery);
+    SqlListAvailValHeaders << "Value";
+//    QString initQuery = "SELECT Distinct Type "
+//                        "FROM ReceptType ";
+    MenuModel* MenuRec = new MenuModel(MenuModelHeaders,"SELECT Distinct Type FROM ReceptType;");
     SearchModel* MenuSearch = new SearchModel(SearchModelHeaders,"");
-    //Model* SearchLists = new Model(ModelHeaders,initQuery);
+    SqlListAvailVal* ListProd = new SqlListAvailVal(SqlListAvailValHeaders,"SELECT Distinct Name as Value FROM Product;");
+    SqlListAvailVal* ListVal = new SqlListAvailVal(SqlListAvailValHeaders,""); //список доступных значений
+
     Recept curRecept;
 
     //Подключаем сигналы между моделью и экземпляром рецепта
@@ -50,6 +52,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("MenuSearch", MenuSearch);
     engine.rootContext()->setContextProperty("curReceptComposition", &(curRecept.composition));
     engine.rootContext()->setContextProperty("SingleRecModel", &curRecept);
+    engine.rootContext()->setContextProperty("ListVal", ListVal);
+    engine.rootContext()->setContextProperty("ListProd", ListProd);
 
     #ifdef ANDROID
         engine.load(QUrl(QStringLiteral("assets:/content/Main.qml")));

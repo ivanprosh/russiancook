@@ -38,13 +38,20 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
+import QtQuick 2.2
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.1
+import QtQuick.Layouts 1.2
+import Qt.labs.controls 1.0
 
-Rectangle {
-    color: "#d6d6d6"
+ColumnLayout {
     width: parent.width
     height: childrenRect.height
     z: 2
+
+    property string fontItemsize: mainwindow.dp(24)
+    property string fontHeadersize: mainwindow.dp(14)
+    property color mainTextColor: Qt.darker("#706343")
 //    Connections {
 //        target: mainListView
 //        onAutoSearch: {
@@ -60,41 +67,163 @@ Rectangle {
 //            }
 //        }
 //    }
-    SpriteSequence {
-        id: sprite
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: 320
-        height: 300
-        running: true
-        interpolate: false
-        Sprite {
-            name: "bird"
-            source: "../images/bird-anim-sprites.png"
-            frameCount: 1
-            frameRate: 1
-            frameWidth: 320
-            frameHeight: 300
-            to: { "bird":10, "trill":1, "blink":1 }
+    ListModel
+    {
+        id:searchReceptComposition
+        //Repeater {
+        //      model: 5
+              ListElement {product:"";count:"";metric:""}
+       // }
+    }
+    //состав
+    TableView {
+        id: usercomposTable
+        Layout.alignment: Qt.AlignHCenter
+        Layout.preferredWidth: parent.width*0.8
+        Layout.minimumHeight: rowCount*mainwindow.dp(40)
+
+        TableViewColumn {
+            role: "product"
+            title: "Продукт"
+            width: usercomposTable.width/2.1
+            delegate: ComboBox{
+                font.pixelSize: fontItemsize
+                model: ListProd
+                textRole: Value
+            }
         }
-        Sprite {
-            name: "trill"
-            source: "../images/bird-anim-sprites.png"
-            frameCount: 5
-            frameRate: 3
-            frameWidth: 320
-            frameHeight: 300
-            to: {"bird":1}
+        TableViewColumn {
+            role: "count"
+            title: "Кол-во"
+            width: usercomposTable.width/4
+            delegate: SpinBox{
+                id: countprod
+                from: 0
+                to: 1000
+                font.pixelSize: fontItemsize
+                validator: DoubleValidator {
+                      //locale: control.locale.name
+                      decimals: 2
+                      notation : DoubleValidator.StandardNotation
+                      bottom: Math.min(parent.from, parent.to)
+                      top: Math.max(parent.from, parent.to)
+                  }
+                background: Rectangle{
+                    implicitWidth: mainwindow.dp(140)
+                    //anchors.fill: parent
+                    border.color: "#70603f"
+                    color: "transparent"
+                }
+
+                down.indicator: Rectangle {
+                    x: 0
+                    height: parent.height
+                    implicitWidth: 40
+                    implicitHeight: 40
+                    color: down.pressed ? "#92865c" : "#7a6a48"
+                    border.color: countprod.enabled ? Qt.darker("#CC706343") : "#bdbebf"
+
+                    Rectangle {
+                        x: (parent.width - width) / 2
+                        y: (parent.height - height) / 2
+                        width: parent.width / 3
+                        height: 2
+                        color: countprod.enabled ? "#353637" : "#bdbebf"
+                    }
+                }
+
+                up.indicator: Rectangle {
+                      x: parent.width - width
+                      height: parent.height
+                      implicitWidth: 40
+                      implicitHeight: 40
+                      color: up.pressed ? "#92865c" : "#7a6a48"
+                      border.color: countprod.enabled ? Qt.darker("#CC706343") : "#bdbebf"
+
+                      Rectangle {
+                          x: (parent.width - width) / 2
+                          y: (parent.height - height) / 2
+                          width: parent.width / 3
+                          height: 2
+                          color: countprod.enabled ? "#353637" : "#bdbebf"
+                      }
+                      Rectangle {
+                          x: (parent.width - width) / 2
+                          y: (parent.height - height) / 2
+                          width: 2
+                          height: parent.width / 3
+                          color: countprod.enabled ? "#353637" : "#bdbebf"
+                      }
+                  }
+            }
         }
-        Sprite {
-            name: "blink"
-            source: "../images/bird-anim-sprites.png"
-            frameCount: 1
-            frameRate: 3
-            frameWidth: 320
-            frameHeight: 300
-            frameX: 1600
-            to: {"bird":1}
+        TableViewColumn {
+            role: "metric"
+            title: "Ед.изм."
+            width: usercomposTable.width/4
+            delegate: ComboBox{
+           //     model:
+            }
+        }
+        model: searchReceptComposition
+
+        frameVisible: false
+        sortIndicatorVisible: true
+
+        //делегаты
+        style: TableViewStyle {
+
+            backgroundColor: "transparent"
+            headerDelegate: Rectangle {
+
+                height: textItem.implicitHeight * 1.3
+                width: textItem.implicitWidth
+                //color: "#33796c49"
+                color: "transparent"
+                Text {
+                    id: textItem
+                    anchors.fill: parent
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: styleData.textAlignment
+                    //anchors.leftMargin: 12
+                    text: styleData.value
+                    elide: Text.ElideRight
+                    color: mainTextColor
+                    renderType: Text.NativeRendering
+                    font.pixelSize: fontHeadersize
+                }
+
+            }
+            itemDelegate:  Item {
+                Text {
+                    id:textrow
+                    width: parent.width
+                    anchors.margins: 4
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    horizontalAlignment: styleData.textAlignment
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.leftMargin: 12
+                    anchors.topMargin: 5
+                    elide: Text.ElideMiddle
+                    text: styleData.value
+                    color: styleData.textColor
+                    font.pixelSize: fontItemsize
+
+                    Behavior on font.pixelSize { NumberAnimation{} }
+                }
+            }
+
+            rowDelegate: Rectangle {
+                height: fontItemsize * 2.0
+                //width: textrow.implicitWidth
+                color: styleData.selected ? "#11ffffff":"transparent"
+                Behavior on height { NumberAnimation{} }
+
+            }
+
         }
     }
+
 }
+
 
