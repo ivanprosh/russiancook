@@ -7,11 +7,6 @@
 class Model : public QSqlQueryModel
 {
     Q_OBJECT
-    //QStack<QSqlQuery> MyqueryStack;
-    //QStack<QString> HandleNameStack;
-
-    //int curTypeid;
-    //QString HandleName;
 public:
 //    enum Roles  {Type = Qt::UserRole,SubType,Description,
 //                 RecName,RecMainProd,RecDescription,RecComment,RecRacion};

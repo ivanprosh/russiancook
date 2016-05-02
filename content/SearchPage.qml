@@ -46,7 +46,7 @@ ScrollView {
             NumberAnimation { property: "opacity"; from: 0.3; to: 1.0; duration: 500; easing.type: Easing.InOutQuad }
         }
 
-        footer: SearchInitAnimation {}
+        footer: SearchExtension {}
     }
 
     style: ScrollViewStyle {

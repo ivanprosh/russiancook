@@ -50,6 +50,8 @@ ApplicationWindow {
     //anchors { top: parent.top; bottom: parent.bottom; left:parent.left; right:parent.right  }
     property int dpi: Screen.pixelDensity * 25.4
     property int rightmarginborder: 69
+    property color control: "#7a6a48"
+    property color controlpress: "#92865c"
 
     width: Qt.platform.os == "windows" ? dp(550) : Screen.width
     height: Qt.platform.os == "windows" ? dp(720) : Screen.height
@@ -171,12 +173,9 @@ ApplicationWindow {
             height: parent.height
             width: parent.width
             onHasOpened: {
-//                tagSearch.close()
-//                userSearch.close()
-                  console.log("height is:",height)
+                  console.log("SearchDelegate onHasOpened:")
             }
-            onOk: {
-                  console.log("Word completed: ",searchText);
+            onOk: {             
                   MenuSearch.selectWord(searchText);
 //                searchResultsList.positionViewAtBeginning();
 //                mainListView.clear()

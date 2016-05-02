@@ -19,14 +19,17 @@
         <file>images/shopping_basket.svg</file>
         <file>content/SearchPage.qml</file>
         <file>content/LineInput.qml</file>
-        <file>content/SearchInitAnimation.qml</file>
         <file>images/icon-search.png</file>
         <file>content/SearchDelegate.qml</file>
         <file>content/FTSListDelegate.qml</file>
         <file>content/FlipBar.qml</file>
         <file>content/PopupEffect.qml</file>
         <file>images/popupback.png</file>
-        <file>content/ExtensSearchPage.qml</file>
         <file>images/navigation_popup_open.png</file>
+        <file>images/drop-indicator.png</file>
+        <file>content/CookComboBox.qml</file>
+        <file>images/add.svg</file>
+        <file>images/remove.svg</file>
+        <file>content/SearchExtension.qml</file>
     </qresource>
 </RCC>

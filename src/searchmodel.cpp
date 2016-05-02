@@ -68,3 +68,8 @@ void SearchModel::selectWord(QString Word)
     this->setQuery(query);
 }
 
+void SearchModel::fillCompos(QString ProdName, int ProdCount, QString ProdMetrics)
+{
+    qDebug() << "In vector! "<< ProdName << ProdCount << ProdMetrics;
+}
+

@@ -6,6 +6,7 @@
 #include "searchmodel.h"
 #include "recept.h"
 #include "sqllistavailval.h"
+#include "sqlcollavailval.h"
 
 int main(int argc, char *argv[])
 {
@@ -34,12 +35,11 @@ int main(int argc, char *argv[])
     MenuModelHeaders << "Name" << "MainProd" << "Racion" << "Description" << "Comment" ; //Таблица Рецептов
     SearchModelHeaders << "Name" << "MainProd" << "Compos" << "Type" << "SubType" << "Racion" << "Description" << "Comment";
     SqlListAvailValHeaders << "Value";
-//    QString initQuery = "SELECT Distinct Type "
-//                        "FROM ReceptType ";
+
     MenuModel* MenuRec = new MenuModel(MenuModelHeaders,"SELECT Distinct Type FROM ReceptType;");
     SearchModel* MenuSearch = new SearchModel(SearchModelHeaders,"");
     SqlListAvailVal* ListProd = new SqlListAvailVal(SqlListAvailValHeaders,"SELECT Distinct Name as Value FROM Product;");
-    SqlListAvailVal* ListVal = new SqlListAvailVal(SqlListAvailValHeaders,""); //список доступных значений
+    SqlListAvailVal* ListVal = new SqlListAvailVal[10]; //список доступных значений
 
     Recept curRecept;
 
@@ -52,7 +52,13 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("MenuSearch", MenuSearch);
     engine.rootContext()->setContextProperty("curReceptComposition", &(curRecept.composition));
     engine.rootContext()->setContextProperty("SingleRecModel", &curRecept);
-    engine.rootContext()->setContextProperty("ListVal", ListVal);
+    for(int i=0;i<10;i++)
+    {
+        QString val = "ListVal%1";
+        engine.rootContext()->setContextProperty(val.arg(i+1), ListVal+i);
+    }
+    //engine.rootContext()->setContextProperty("ListVal1", ListVal);
+    //engine.rootContext()->setContextProperty("ListVal2", ListVal+1);
     engine.rootContext()->setContextProperty("ListProd", ListProd);
 
     #ifdef ANDROID

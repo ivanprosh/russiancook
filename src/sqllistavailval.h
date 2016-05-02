@@ -12,7 +12,9 @@ public:
     enum Roles  {Value = Qt::UserRole};
     //SearchModelHeaders << "Name" << "MainProd" << "Compos" << "Type" << "SubType" << "Racion" << "Description" << "Comment";
     explicit SqlListAvailVal(QStringList headers,QString initquery, QObject *parent = 0);
+    explicit SqlListAvailVal();
 public slots:
+    // void setList(QString Value);
     void setList(QString Value);
 };
 
